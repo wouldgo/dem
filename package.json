@@ -1,0 +1,19 @@
+{
+  "name": "dem",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js",
+    "start": "http-server -a localhost -p 8000 -c-1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "gdal": "^0.7.1",
+    "geojson": "^0.2.1"
+  },
+  "devDependencies": {
+    "http-server": "^0.8.0"
+  }
+}
