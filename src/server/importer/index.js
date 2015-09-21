@@ -1,4 +1,5 @@
-(function() {
+/*global require, console, JSON*/
+(function withNode(require, console, JSON) {
   'use strict';
 
   var gdal = require('gdal')
@@ -7,13 +8,16 @@
     , geoTransform = dataset.geoTransform
     , toGeoJson = [];
 
-  console.log("Projection:", (dataset.srs ? dataset.srs.toWKT() : 'none'));
+  console.log('Projection:', dataset.srs ? dataset.srs.toWKT() : 'none');
   dataset.bands.forEach(function iterator(aRasterBand) {
-
     var xMaxValue
       , yMaxValue
       , xIndexValue
-      , yIndexValue;
+      , yIndexValue
+      , aPixelHeight
+      , xPosition
+      , yPosition;
+
     if (aRasterBand &&
       aRasterBand.noDataValue &&
       aRasterBand.size &&
@@ -25,10 +29,8 @@
       for (xIndexValue = 0; xIndexValue < xMaxValue; xIndexValue += 1) {
 
         for (yIndexValue = 0; yIndexValue < yMaxValue; yIndexValue += 1) {
+          aPixelHeight = aRasterBand.pixels.get(xIndexValue, yIndexValue);
 
-          var aPixelHeight = aRasterBand.pixels.get(xIndexValue, yIndexValue)
-            , xPosition
-            , yPosition;
           if (aPixelHeight !== aRasterBand.noDataValue) {
 
             xPosition = geoTransform[0] + xIndexValue * geoTransform[1] + yIndexValue * geoTransform[2];
@@ -44,8 +46,8 @@
 
   GeoJSON.parse(toGeoJson, {
     'Point': 'coords'
-  }, function (geojson) {
+  }, function finishedToImport(geojson) {
 
     console.log(JSON.stringify(geojson));
   });
-}());
+}(require, console, JSON));

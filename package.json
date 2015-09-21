@@ -4,16 +4,25 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js",
-    "start": "http-server -a localhost -p 8000 -c-1"
+    "test": "node src/server/importer/index.js",
+    "start": "node src/server/index.js",
+    "lint": "eslint -c .eslintrc src && jshint -c .jshintrc --reporter=unix src && jscs -c .jscsrc src",
+    "precommit": "npm run-script lint"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "gdal": "^0.7.1",
-    "geojson": "^0.2.1"
+    "geojson": "^0.2.1",
+    "hapi": "^10.0.0",
+    "inert": "^3.0.1"
   },
   "devDependencies": {
-    "http-server": "^0.8.0"
+    "eslint": "*",
+    "husky": "*",
+    "jscs": "*",
+    "jshint": "*",
+    "node-inspector": "*",
+    "uglifyjs": "*"
   }
 }
