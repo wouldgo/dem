@@ -1,0 +1,91 @@
+#! /usr/bin/env node
+// -*- js -*-
+
+/* global process,require,__dirname*/
+(function webpackConfiguration(process, require, __dirname) {
+  'use strict';
+
+  //args: minifiy watch
+  var wwwFolder = '../src/www'
+    , jsFolder = wwwFolder + '/js'
+    , server = require('../src/server')
+    , argv = require('minimist')(process.argv.slice(2))
+    , webpack = require('webpack')
+    , path = require('path')
+    , uglifyJsPlugin = new webpack.optimize.UglifyJsPlugin({
+        'compress': {
+          'warnings': false
+        },
+        'output': {
+          'comments': false,
+          'semicolons': true
+        }
+      })
+    , onWebPackBuildDone = function onWebPackBuildDone(error, stats) {
+        if (error) {
+
+          throw new Error(error);
+        }
+
+        console.info(stats);
+        server.startServer();
+      }
+    , webpackBuild = function webpackBuild(isWatch, toMinify) {
+        var plugins = [];
+
+        if (toMinify) {
+
+          plugins.push(uglifyJsPlugin);
+        }
+
+        webpack({
+          'entry': path.resolve(__dirname, jsFolder, 'index.js'),
+          'bail': !isWatch,
+          'watch': isWatch,
+          'devtool': 'source-map',
+          'plugins': plugins,
+          'output': {
+            'path': path.resolve(__dirname, jsFolder),
+            'filename': '[name].bundle.js',
+            'chunkFilename': '[id].bundle.js',
+            'sourceMapFilename': '[file].map'
+          },
+          'module' : {
+            'loaders': [
+              {
+                'test': /\.js$/,
+                'exclude': /node_modules/,
+                'loader': 'babel',
+                'include': [
+                  path.resolve(__dirname, jsFolder)
+                ]
+              }
+            ]
+          }
+        }, onWebPackBuildDone);
+      };
+
+  if (argv) {
+
+    if (argv.watch) {
+
+      argv.watch = Boolean(argv.watch);
+    } else {
+
+      argv.watch = true;
+    }
+
+    if (argv.minify) {
+
+      argv.minify = Boolean(argv.minify);
+    } else {
+
+      argv.minify = false;
+    }
+
+    webpackBuild(argv.watch, argv.minify);
+  } else {
+
+    throw new Error('No arguments passed.');
+  }
+}(process, require, __dirname));

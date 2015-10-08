@@ -5,9 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "node src/server/importer/index.js",
+    "prestart": "./tasks/webpack-build",
     "start": "node src/server/index.js",
     "lint": "eslint -c .eslintrc src && jshint -c .jshintrc --reporter=unix src && jscs -c .jscsrc src",
-    "precommit": "npm run-script lint"
+    "precommit": "npm run-script lint",
+    "preversion": "./tasks/webpack-build --minify=true"
   },
   "author": "",
   "license": "MIT",
@@ -18,11 +20,14 @@
     "inert": "^3.0.1"
   },
   "devDependencies": {
+    "babel-eslint": "*",
+    "babel-loader": "*",
     "eslint": "*",
     "husky": "*",
     "jscs": "*",
     "jshint": "*",
+    "minimist": "*",
     "node-inspector": "*",
-    "uglifyjs": "*"
+    "webpack": "*"
   }
 }

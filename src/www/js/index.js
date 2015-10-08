@@ -1,6 +1,8 @@
-/*global window*/
-(function plainOldJs(window) {
+/*global console*/
+import Renderer from './renderer.js';
+
+(function inBrowser() {
   'use strict';
 
-  window.console.log('BAM');
-}(window));
+  console.log(Renderer);
+}());
