@@ -1,5 +1,4 @@
 node_modules/
 trentino-altoadige/
-src/www/lib/
-src/www/js/main.bundle.js
-src/www/js/main.bundle.js.map
+www/lib/
+www/js/**.dist.**

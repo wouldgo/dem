@@ -2,11 +2,8 @@
 import THREE from '../lib/three.js/three.js';
 import $ from '../lib/jquery/dist/jquery.min.js';
 
-(function plainOldJs(window) {
-  'use strict';
-
-  // set the scene size
-  var WIDTH = 640
+// set the scene size
+const WIDTH = 640
     , HEIGHT = 480
     // set some camera attributes
     , VIEW_ANGLE = 45
@@ -29,42 +26,44 @@ import $ from '../lib/jquery/dist/jquery.min.js';
     // create a point light
     , pointLight = new THREE.PointLight(0xFFFFFF);
 
-  // add the camera to the scene
-  scene.add(camera);
+// add the camera to the scene
+scene.add(camera);
 
-  // the camera starts at 0,0,0
-  // so pull it back
-  camera.position.z = 300;
+// the camera starts at 0,0,0
+// so pull it back
+camera.position.z = 300;
 
-  // start the renderer
-  renderer.setSize(WIDTH, HEIGHT);
+// start the renderer
+renderer.setSize(WIDTH, HEIGHT);
 
-  // attach the render-supplied DOM element
-  $container.append(renderer.domElement);
+// attach the render-supplied DOM element
+$container.append(renderer.domElement);
 
-  territoryGeometry.vertices.push(
-    new THREE.Vector3(-10, 10, 0),
-    new THREE.Vector3(-10, -10, 0),
-    new THREE.Vector3(10, -10, 0)
-  );
+territoryGeometry.vertices.push(
+  new THREE.Vector3(-10, 10, 0),
+  new THREE.Vector3(-10, -10, 0),
+  new THREE.Vector3(10, -10, 0)
+);
 
-  territoryGeometry.faces.push( new THREE.Face3( 0, 1, 2 ) );
+territoryGeometry.faces.push( new THREE.Face3( 0, 1, 2 ) );
 
-  territoryGeometry.computeBoundingSphere();
+territoryGeometry.computeBoundingSphere();
 
-  scene.add(plane);
+scene.add(plane);
 
-  // set its position
-  pointLight.position.x = 10;
-  pointLight.position.y = 50;
-  pointLight.position.z = 130;
+// set its position
+pointLight.position.x = 10;
+pointLight.position.y = 50;
+pointLight.position.z = 130;
 
-  // add to the scene
-  scene.add(pointLight);
+// add to the scene
+scene.add(pointLight);
+
+export let kickOff = function kickOff() {
 
   //draw
   window.requestAnimationFrame(function updateTick() {
 
     renderer.render(scene, camera);
   });
-}(window));
+};

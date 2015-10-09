@@ -1,8 +1,8 @@
 /*global console*/
-import Renderer from './renderer.js';
+import kickOff from './renderer.js';
 
 (function inBrowser() {
   'use strict';
 
-  console.log(Renderer);
+  console.log(kickOff);
 }());

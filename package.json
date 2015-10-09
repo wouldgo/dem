@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node src/server/importer/index.js",
-    "prestart": "./tasks/webpack-build",
-    "start": "node src/server/index.js",
-    "lint": "eslint -c .eslintrc src && jshint -c .jshintrc --reporter=unix src && jscs -c .jscsrc src",
+    "test": "node server/importer/index.js",
+    "prestart": "rm -fv www/js/index.dist.js && babel www/js --modules umd --out-file www/js/index.dist.js",
+    "start": "node server/index.js",
+    "lint": "eslint -c .eslintrc server www && jshint -c .jshintrc --reporter=unix server www && jscs -c .jscsrc server www",
     "precommit": "npm run-script lint",
-    "preversion": "./tasks/webpack-build --minify=true"
+    "preversion": "./tasks/webpack-build --watch=false --minify=true"
   },
   "author": "",
   "license": "MIT",
@@ -20,6 +20,7 @@
     "inert": "^3.0.1"
   },
   "devDependencies": {
+    "babel": "*",
     "babel-eslint": "*",
     "babel-loader": "*",
     "eslint": "*",
