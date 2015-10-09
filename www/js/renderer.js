@@ -1,6 +1,6 @@
 /*global window*/
-import THREE from 'lib/three.js/three.js';
-import $ from 'lib/jquery/dist/jquery.min.js';
+import THREE from 'three';
+import $ from 'jquery';
 
 // set the scene size
 const WIDTH = 640
@@ -24,7 +24,16 @@ const WIDTH = 640
       })
     , plane = new THREE.Mesh(territoryGeometry, planeMaterial)
     // create a point light
-    , pointLight = new THREE.PointLight(0xFFFFFF);
+    , pointLight = new THREE.PointLight(0xFFFFFF)
+    , kickOff = function kickOff() {
+      'use strict';
+
+      //draw
+      window.requestAnimationFrame(function updateTick() {
+
+        renderer.render(scene, camera);
+      });
+    };
 
 // add the camera to the scene
 scene.add(camera);
@@ -59,11 +68,4 @@ pointLight.position.z = 130;
 // add to the scene
 scene.add(pointLight);
 
-export let kickOff = function kickOff() {
-
-  //draw
-  window.requestAnimationFrame(function updateTick() {
-
-    renderer.render(scene, camera);
-  });
-};
+export default kickOff;

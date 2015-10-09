@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node server/importer/index.js",
-    "prestart": "rm -Rfv www/dist && babel www/js --modules umd --out-dir www/dist",
+    "prestart": "rm -Rfv www/dist && babel www/js --source-maps --watch --modules umd --out-dir www/dist&",
     "start": "node server/index.js",
     "lint": "eslint -c .eslintrc server www && jshint -c .jshintrc --reporter=unix server www && jscs -c .jscsrc server www",
     "precommit": "npm run-script lint",
