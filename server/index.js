@@ -1,19 +1,12 @@
-/*global __dirname,require,console,module*/
-(function withModule(__dirname, require, console, module) {
+/*global __dirname,require,console*/
+(function withModule(__dirname, require, console) {
   'use strict';
 
   var Hapi = require('hapi')
     , Inert = require('inert')
     , server = new Hapi.Server()
     , path = require('path')
-    , publicFolder = path.resolve(__dirname, '..', 'www')
-    , startServer = function startServer() {
-
-      server.start(function onStart() {
-
-        console.log('Server running at:', server.info.uri);
-      });
-    };
+    , publicFolder = path.resolve(__dirname, '..', 'www');
 
   server.register(Inert, function onRegister() {
 
@@ -33,8 +26,11 @@
       }
     });
 
-    module.exports = {
-      'startServer': startServer
-    };
+    server.start(function onStart() {
+
+      /*eslint-disable no-console*/
+      console.log('Server running at:', server.info.uri, 'exposing', publicFolder);
+      /*eslint-enable no-console*/
+    });
   });
-}(__dirname, require, console, module));
+}(__dirname, require, console));

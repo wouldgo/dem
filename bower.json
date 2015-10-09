@@ -19,6 +19,7 @@
   ],
   "dependencies": {
     "jquery": "~2.1.4",
-    "three.js": "~0.71.0"
+    "three.js": "~0.71.0",
+    "requirejs": "~2.1.20"
   }
 }

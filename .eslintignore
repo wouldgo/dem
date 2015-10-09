@@ -1,2 +1,2 @@
-src/www/lib/**
-src/www/js/*.bundle.*
+www/lib/**
+www/dist/**

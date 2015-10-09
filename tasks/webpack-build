@@ -6,9 +6,9 @@
   'use strict';
 
   //args: minifiy watch
-  var wwwFolder = '../src/www'
-    , jsFolder = wwwFolder + '/js'
-    , server = require('../src/server')
+  var wwwFolder = '../www'
+    , jsFolder = wwwFolder + '/dist/js'
+    , server = require('../server')
     , argv = require('minimist')(process.argv.slice(2))
     , webpack = require('webpack')
     , path = require('path')
@@ -21,17 +21,21 @@
           'semicolons': true
         }
       })
-    , onWebPackBuildDone = function onWebPackBuildDone(error, stats) {
+    , onWebPackBuildDone = function onWebPackBuildDone(isWatch, error, stats) {
         if (error) {
 
           throw new Error(error);
         }
 
         console.info(stats);
-        server.startServer();
+        if (isWatch) {
+
+          server.startServer();
+        }
       }
     , webpackBuild = function webpackBuild(isWatch, toMinify) {
-        var plugins = [];
+        var plugins = []
+          , onWebPackBuildDoneBoundOnWatch = onWebPackBuildDone.bind(undefined, isWatch);
 
         if (toMinify) {
 
@@ -62,7 +66,7 @@
               }
             ]
           }
-        }, onWebPackBuildDone);
+        }, onWebPackBuildDoneBoundOnWatch);
       };
 
   if (argv) {

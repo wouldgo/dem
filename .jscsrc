@@ -1,7 +1,8 @@
 {
   "esnext": true,
   "excludeFiles": [
-    "src/www/lib/**"
+    "www/lib/**",
+    "www/dist/**"
   ],
   "validateIndentation": 2,
   "disallowAnonymousFunctions": true,
