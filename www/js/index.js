@@ -1,5 +1,5 @@
 /*global console*/
-import kickOff from './renderer.js';
+import kickOff from './renderer';
 
 (function inBrowser() {
   'use strict';

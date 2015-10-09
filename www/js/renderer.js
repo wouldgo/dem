@@ -1,6 +1,6 @@
 /*global window*/
-import THREE from '../lib/three.js/three.js';
-import $ from '../lib/jquery/dist/jquery.min.js';
+import THREE from 'lib/three.js/three.js';
+import $ from 'lib/jquery/dist/jquery.min.js';
 
 // set the scene size
 const WIDTH = 640

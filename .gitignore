@@ -1,4 +1,4 @@
 node_modules/
 trentino-altoadige/
 www/lib/
-www/js/**.dist.**
+www/dist/

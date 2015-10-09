@@ -2,7 +2,7 @@
   "esnext": true,
   "excludeFiles": [
     "www/lib/**",
-    "www/js/**.dist.*"
+    "www/dist/**"
   ],
   "validateIndentation": 2,
   "disallowAnonymousFunctions": true,
