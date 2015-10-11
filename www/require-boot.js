@@ -20,7 +20,7 @@
     }
   });
 
-  define(['./dist/index'], function onIndexModuleLoaded() {
+  define(['./dist/index'], () => {
 
     window.console.info('Application loaded...');
   });
