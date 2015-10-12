@@ -2,16 +2,16 @@
 (function withNode(require, module) {
   'use strict';
 
-  /*const gdal = require('gdal')
-    , GeoJSON = require('geojson');*/
+  var /*gdal = require('gdal')
+    , GeoJSON = require('geojson')
+    ,*/ handleGetRasterInformations = function handleGetRasterInformations(request, reply) {
+
+      reply('OK');
+    };
 
   module.exports = function exportingFunction(/*joi, boom*/) {
 
-    let handleGetRasterInformations = function handleGetRasterInformations(request, reply) {
-
-      reply('OK');
-    }
-    , getRasterInformations = {
+    var getRasterInformations = {
       'method': 'GET',
       'path': '/raster-info',
       'config': {

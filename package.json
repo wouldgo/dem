@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node server/importer/index.js",
     "prestart": "rm -Rfv www/dist && babel www/js --source-maps --watch --modules umd --out-dir www/dist&",
+    "test": "lab spec/**/*.js",
     "start": "node server/index.js",
     "lint": "eslint -c .eslintrc server www && jshint -c .jshintrc --reporter=unix server www && jscs -c .jscsrc server www",
     "precommit": "npm run-script lint",
@@ -20,16 +20,22 @@
     "hapi": "^10.0.0",
     "hapi-auth-jwt2": "^5.1.0",
     "inert": "^3.0.1",
-    "joi": "^6.9.0"
+    "joi": "^6.9.0",
+    "jsonwebtoken": "^5.4.0",
+    "lout": "^7.2.0",
+    "mongoose": "^4.1.10",
+    "vision": "^3.0.0"
   },
   "devDependencies": {
     "babel": "*",
     "babel-eslint": "*",
     "babel-loader": "*",
+    "code": "*",
     "eslint": "*",
     "husky": "*",
     "jscs": "*",
     "jshint": "*",
+    "lab": "*",
     "minimist": "*",
     "node-inspector": "*",
     "webpack": "*"
