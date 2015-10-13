@@ -7,15 +7,15 @@
     , describe = lab.describe
     , it = lab.it
     , expect = code.expect
+    , MockObjectId = require('../helper/mock-objectId')
     , mockedUser = {
-        '_id': 123,
+        '_id': new MockObjectId(123),
         'email': 'test@test.test',
         'insertDatetime': Date()
       }
-    , mockedDb = require('../helper/mock-user')(mockedUser)
+    , mockedDb = require('../helper/mock-user')(mockedUser, MockObjectId)
     , mockedSchema = require('../helper/mock-schema')
-    , mockObjectId = require('../helper/mock-objectId')
-    , userModel = require('../../server/model/user')(mockedDb, mockedSchema, mockObjectId);
+    , userModel = require('../../server/model/user')(mockedDb, mockedSchema, MockObjectId);
 
   describe('user mongodb model module', function testSuite() {
 
@@ -81,6 +81,32 @@
       });
     });
 
+    it('should insert new user (2)', function testScenario(done) {
+      var aUser = {
+        '_id': 456,
+        'email': 'one@one.one',
+        'insertDatetime': Date()
+      };
+
+      userModel.insertNew(aUser).then(function onSuccess(element) {
+
+        if (element) {
+
+          expect(element).to.be.an.object();
+          expect(element).to.deep.include(aUser);
+          done();
+        } else {
+
+          expect(false).to.be.true();
+          done();
+        }
+      }).catch(function onFailure() {
+
+        expect(false).to.be.true();
+        done();
+      });
+    });
+
     it('should update user by id', function testScenario(done) {
 
       /*jscs: disable disallowDanglingUnderscores*/
@@ -106,6 +132,22 @@
       });
     });
 
+    it('should delete element', function testScenario(done) {
+
+      userModel.dropById(123).then(function onSuccess() {
+
+        expect(true).to.be.true();
+        done();
+      }).catch(function onFailure() {
+
+        expect(false).to.be.true();
+        done();
+      });
+    });
+  });
+
+  describe('user mongodb model wrost case scenarios', function testSuite() {
+
     it('should get nothing by email', function testScenario(done) {
 
       userModel.getByEmail('one@one.one').then(function onSuccess() {
@@ -114,18 +156,7 @@
         done();
       }).catch(function onFailure() {
 
-        done();
-      });
-    });
-
-    it('should delete element', function testScenario(done) {
-
-      userModel.dropById(123).then(function onSuccess() {
-
-        done();
-      }).catch(function onFailure() {
-
-        expect(false).to.be.true();
+        expect(true).to.be.true();
         done();
       });
     });
@@ -138,6 +169,7 @@
         done();
       }).catch(function onFailure() {
 
+        expect(true).to.be.true();
         done();
       });
     });
@@ -149,6 +181,7 @@
         expect(false).to.be.true();
       }).catch(function onFailure() {
 
+        expect(true).to.be.true();
         done();
       });
     });
@@ -161,6 +194,7 @@
         done();
       }).catch(function onFailure() {
 
+        expect(true).to.be.true();
         done();
       });
     });

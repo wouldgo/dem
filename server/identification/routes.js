@@ -7,25 +7,23 @@
 
         /*jscs: disable disallowDanglingUnderscores*/
         /*eslint-disable no-underscore-dangle*/
-        var underscoreId = userToSign._id;
-
         if (!userToSign._id) {
 
           throw 'manadatory user identifier not provided';
         }
 
+        var underscoreId = userToSign._id.toHexString()
+          , toSign = {
+            'id': userToSign._id.toHexString(),
+            'email': userToSign.email
+          };
         /*jscs: enable disallowDanglingUnderscores*/
         /*eslint-enable no-underscore-dangle*/
-
-        if (userToSign.email) {
-
-          delete userToSign.email;
-        }
 
         return {
           'id': underscoreId,
           'sessionExpiration': sessionExpiration,
-          'token': jwt.sign(userToSign, jwtSalt, {
+          'token': jwt.sign(toSign, jwtSalt, {
             'expiresIn': sessionExpiration
           })
         };
@@ -40,7 +38,11 @@
 
             if (result) {
 
-              return model.users.updateById(result.id, request.payload);
+              /*jscs: disable disallowDanglingUnderscores*/
+              /*eslint-disable no-underscore-dangle*/
+              return model.users.updateById(result._id, request.payload);
+              /*jscs: enable disallowDanglingUnderscores*/
+              /*eslint-enable no-underscore-dangle*/
             }
 
             return model.users.insertNew(request.payload);
@@ -116,7 +118,11 @@
             reply(boom.badData('You must provide an email stored'));
           }).then(function onInquirySuccess(result) {
 
-            return model.users.dropById(result.id);
+            /*jscs: disable disallowDanglingUnderscores*/
+            /*eslint-disable no-underscore-dangle*/
+            return model.users.dropById(result._id.toHexString());
+            /*jscs: enable disallowDanglingUnderscores*/
+            /*eslint-enable no-underscore-dangle*/
           }).then(function onDeletionSuccess() {
 
             reply({

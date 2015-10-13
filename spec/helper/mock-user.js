@@ -2,14 +2,23 @@
 (function testing(module) {
   'use strict';
 
-  module.exports = function exportingFunction(mockedUser) {
+  module.exports = function exportingFunction(mockedUser, MockObjectId) {
 
     var theSchema
       , modelRegistration = function ModelRegistration(user) {
 
         if (user) {
+          var usersKeys = Object.keys(user);
 
           this.user = user;
+          if (usersKeys.indexOf('_id') < 0) {
+
+            /*jscs: disable disallowDanglingUnderscores*/
+            /*eslint-disable no-underscore-dangle*/
+            this.user._id = new MockObjectId(Math.ceil(Math.random() * 10000));
+            /*jscs: enable disallowDanglingUnderscores*/
+            /*eslint-enable no-underscore-dangle*/
+          }
         }
       }
     , mockedDb = {
@@ -26,7 +35,7 @@
         (query.email === mockedUser.email ||
         /*jscs: disable disallowDanglingUnderscores*/
         /*eslint-disable no-underscore-dangle*/
-        query._id.valueOf() === mockedUser._id)) {
+        query._id && query._id.toHexString() === mockedUser._id.toHexString())) {
         /*jscs: enable disallowDanglingUnderscores*/
         /*eslint-enable no-underscore-dangle*/
         var schemaVariables = Object.keys(theSchema)
@@ -51,35 +60,18 @@
         cb(null, mockObject);
       } else {
 
-        cb('fail');
+        cb(null, undefined);
       }
     };
 
-    modelRegistration.getById = function getById(query, cb) {
-
-      var schemaVariables = Object.keys(theSchema)
-        , mockObject = {};
-
-      schemaVariables.forEach(function iterator(anElement) {
-
-        if (query &&
-          query[anElement]) {
-
-          mockObject[anElement] = query[anElement];
-        } else {
-
-          mockObject[anElement] = mockedUser[anElement];
-        }
-      });
-      cb(null, mockObject);
-    };
+    modelRegistration.getById = modelRegistration.findOne;
 
     modelRegistration.update = function update(query, op, cb) {
 
       if (query &&
         /*jscs: disable disallowDanglingUnderscores*/
         /*eslint-disable no-underscore-dangle*/
-        query._id === mockedUser._id &&
+        mockedUser._id.toHexString() === query._id.toHexString() &&
         /*jscs: enable disallowDanglingUnderscores*/
         /*eslint-enable no-underscore-dangle*/
         op &&
@@ -97,7 +89,7 @@
       /*jscs: disable disallowDanglingUnderscores*/
       /*eslint-disable no-underscore-dangle*/
       if (query._id &&
-        mockedUser._id === query._id) {
+        mockedUser._id.toHexString() === query._id) {
         /*jscs: enable disallowDanglingUnderscores*/
         /*eslint-enable no-underscore-dangle*/
 
@@ -110,7 +102,7 @@
 
     modelRegistration.prototype.save = function save(cb) {
 
-      cb(null, mockedUser);
+      cb(null, this.user);
     };
 
     return mockedDb;
