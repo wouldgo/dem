@@ -9,6 +9,7 @@
     , distFolder = path.resolve(__dirname, baseWWWFolder, 'dist')
     , jsFolder = path.resolve(__dirname, baseWWWFolder, 'js')
     , cssFolder = path.resolve(__dirname, baseWWWFolder, 'css')
+    , templatesFolder = path.resolve(__dirname, baseWWWFolder, 'templates')
     , requireJSBootFile = path.resolve(__dirname, baseWWWFolder, 'require-boot.js')
     , getHtmlFile = {
         'method': 'GET',
@@ -81,6 +82,19 @@
             'listing': false
           }
         }
+      }
+    , getTemplatesFolder = {
+        'method': 'GET',
+        'path': '/templates/{param*}',
+        'config': {
+          'auth': false
+        },
+        'handler': {
+          'directory': {
+            'path': templatesFolder,
+            'listing': false
+          }
+        }
       };
 
   module.exports = [
@@ -89,6 +103,7 @@
     getRequireJSBootFile,
     getLibFolder,
     getJsFolder,
+    getTemplatesFolder,
     getDistFolder
   ];
 }(__dirname, module, require));

@@ -12,21 +12,31 @@ const configurationFunction = function configurationFunction($stateProvider, $lo
 
     $ocLazyLoadProvider.config({
       'loadedModules': ['dem'],
+      'debug': true,
       'asyncLoader': require
     });
 
     $stateProvider
       .state('home', {
         'url': '/',
-        'template': "<p>Hello {{name}}. Would you like to... <a href='lazy'>load lazy</a>?</p>",
-        'controller': 'mainCtrl'
+        'controller': 'mainCtrl',
+        'template': "<p>Hello {{name}}. Would you like to... <a href='renderer'>load lazy</a>?</p>"
       })
-      .state('lazy', {
-        'url': '/lazy',
-        'lazyModule': 'app.lazy',
-        'lazyFiles': 'lazy',
-        'lazyTemplateUrl': 'lazy.html',
-        'controller': 'lazyCtrl'
+      .state('renderer', {
+        'url': '/renderer',
+        'controller': 'RendererCtrl',
+        'templateUrl': 'templates/renderer.html',
+        'resolve': {
+          '_loadCtrl': function loadCtrl($ocLazyLoad) {
+
+            return $ocLazyLoad.inject({
+              'name': 'dem.renderer',
+              'files': [
+                './dist/renderer'
+              ]
+            });
+          }
+        }
       });
 
     $locationProvider.html5Mode(true);
@@ -34,8 +44,7 @@ const configurationFunction = function configurationFunction($stateProvider, $lo
 
 angular.module('dem', [
   'ui.router',
-  'oc.lazyLoad'/*,
-  'oc.lazyLoad.uiRouterDecorator'*/
+  'oc.lazyLoad'
 ])
 .config(['$stateProvider', '$locationProvider', '$ocLazyLoadProvider', configurationFunction])
 .controller('mainCtrl', function mainCtrl($scope) {
