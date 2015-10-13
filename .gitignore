@@ -2,3 +2,4 @@ node_modules/
 trentino-altoadige/
 www/lib/
 www/dist/
+npm-debug.log

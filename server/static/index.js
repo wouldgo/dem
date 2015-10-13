@@ -1,0 +1,94 @@
+/*global __dirname,module,require*/
+(function withModule(__dirname, module, require) {
+  'use strict';
+
+  var path = require('path')
+    , baseWWWFolder = '../../www'
+    , libFolder = path.resolve(__dirname, baseWWWFolder, 'lib')
+    , htmlIndexFile = path.resolve(__dirname, baseWWWFolder, 'index.html')
+    , distFolder = path.resolve(__dirname, baseWWWFolder, 'dist')
+    , jsFolder = path.resolve(__dirname, baseWWWFolder, 'js')
+    , cssFolder = path.resolve(__dirname, baseWWWFolder, 'css')
+    , requireJSBootFile = path.resolve(__dirname, baseWWWFolder, 'require-boot.js')
+    , getHtmlFile = {
+        'method': 'GET',
+        'path': '/{path*}',
+        'config': {
+          'auth': false
+        },
+        'handler': {
+          'file': htmlIndexFile
+        }
+      }
+    , getRequireJSBootFile = {
+        'method': 'GET',
+        'path': '/require-boot.js',
+        'config': {
+          'auth': false
+        },
+        'handler': {
+          'file': requireJSBootFile
+        }
+      }
+    , getCssFolder = {
+        'method': 'GET',
+        'path': '/css/{param*}',
+        'config': {
+          'auth': false
+        },
+        'handler': {
+          'directory': {
+            'path': cssFolder,
+            'listing': false
+          }
+        }
+      }
+    , getLibFolder = {
+        'method': 'GET',
+        'path': '/lib/{param*}',
+        'config': {
+          'auth': false
+        },
+        'handler': {
+          'directory': {
+            'path': libFolder,
+            'listing': false
+          }
+        }
+      }
+    , getDistFolder = {
+        'method': 'GET',
+        'path': '/dist/{param*}',
+        'config': {
+          'auth': false
+        },
+        'handler': {
+          'directory': {
+            'path': distFolder,
+            'listing': false
+          }
+        }
+      }
+    , getJsFolder = {
+        'method': 'GET',
+        'path': '/js/{param*}',
+        'config': {
+          'auth': false
+        },
+        'handler': {
+          'directory': {
+            'path': jsFolder,
+            'listing': false
+          }
+        }
+      };
+
+  module.exports = [
+    getHtmlFile,
+    getCssFolder,
+    getRequireJSBootFile,
+    getLibFolder,
+    getJsFolder,
+    getDistFolder
+  ];
+}(__dirname, module, require));

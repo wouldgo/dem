@@ -2,11 +2,10 @@
 (function withNode(process,require, console) {
   'use strict';
 
-  var path = require('path')
-    , config = require('./config')
+  var config = require('./config')
     , mongoIpAddr = config.mongoIpAddr || process.env.MONGO_IP
     , model = require('./model')(mongoIpAddr, config.appName)
-    , http = require('./http')(config.httpConf, config.sessionExpiration, path, model);
+    , http = require('./http')(config.httpConf, config.sessionExpiration, model);
 
   http.start(function onServerStarted() {
 

@@ -1,5 +1,5 @@
-/*global __dirname,module,require*/
-(function withModule(__dirname, module, require) {
+/*global module,require*/
+(function withModule(module, require) {
   'use strict';
 
   var joi = require('joi')
@@ -11,11 +11,11 @@
     , lout = require('lout')
     , server = new Hapi.Server();
 
-  module.exports = function exportingFunction(connectionConfiguration, sessionExpiration, path, model) {
+  module.exports = function exportingFunction(connectionConfiguration, sessionExpiration, model, ignoreStaticContent) {
 
-    var publicFolder = path.resolve(__dirname, '..', 'www')
-      , identification = require('./identification')(sessionExpiration, model, joi, boom)
-      , demRoutes = require('./dem')(joi, boom);
+    var identification = require('./identification')(sessionExpiration, model, joi, boom)
+      , demRoutes = require('./dem')(joi, boom)
+      , staticRoutes = require('./static');
 
     server.connection(connectionConfiguration);
     server.register([hapiJwt, Inert, vision, lout], function onRegister(err) {
@@ -38,21 +38,14 @@
         server.route(identification.routes);
       }
 
-      server.route({
-        'method': 'GET',
-        'path': '/{param*}',
-        'config': {
-          'auth': false
-        },
-        'handler': {
-          'directory': {
-            'path': publicFolder,
-            'listing': false
-          }
-        }
-      });
+      if (!ignoreStaticContent &&
+        staticRoutes &&
+        Array.isArray(staticRoutes)) {
+
+        server.route(staticRoutes);
+      }
     });
 
     return server;
   };
-}(__dirname, module, require));
+}(module, require));

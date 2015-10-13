@@ -1,7 +1,10 @@
-import renderer from './renderer';
+/*global document*/
+import angular from 'angular';
+import $ from 'jquery';
+import dem from './dem';
 
-(function inBrowser() {
-  'use strict';
+const documentReference = $(document);
 
-  renderer();
-}());
+angular.bootstrap(documentReference, [
+  dem
+]);

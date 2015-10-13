@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "debug": "node-debug server/index.js",
     "prestart": "rm -Rfv www/dist && babel www/js --source-maps --watch --modules umd --out-dir www/dist&",
     "test": "lab --debug --verbose spec/**/*.js",
     "start": "node server/index.js",
