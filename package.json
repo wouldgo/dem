@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "prestart": "rm -Rfv www/dist && babel www/js --source-maps --watch --modules umd --out-dir www/dist&",
-    "test": "lab spec/**/*.js",
+    "test": "lab --debug --verbose spec/**/*.js",
     "start": "node server/index.js",
     "lint": "eslint -c .eslintrc server www && jshint -c .jshintrc --reporter=unix server www && jscs -c .jscsrc server www",
-    "precommit": "npm run-script lint",
+    "precommit": "npm run-script lint && npm test",
     "preversion": "./tasks/webpack-build --watch=false --minify=true"
   },
   "author": "",

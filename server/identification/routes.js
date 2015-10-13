@@ -5,32 +5,25 @@
   var jwt = require('jsonwebtoken')
       , jwtSignUser = function jwtSignUser(jwtSalt, sessionExpiration, userToSign) {
 
-        if (userToSign.hasOwnProperty('_id') ||
-          /*jscs: disable disallowDanglingUnderscores*/
-          /*eslint-disable no-underscore-dangle*/
-          userToSign._id) {
+        /*jscs: disable disallowDanglingUnderscores*/
+        /*eslint-disable no-underscore-dangle*/
+        var underscoreId = userToSign._id;
 
-          Object.defineProperty(userToSign, 'id', {
-            'value': userToSign._id
-          });
-          delete userToSign._id;
-          /*jscs: enable disallowDanglingUnderscores*/
-          /*eslint-enable no-underscore-dangle*/
-        }
-
-        if (!userToSign.hasOwnProperty('id') ||
-          !userToSign.id) {
+        if (!userToSign._id) {
 
           throw 'manadatory user identifier not provided';
         }
 
-        if (userToSign.hasOwnProperty('email')) {
+        /*jscs: enable disallowDanglingUnderscores*/
+        /*eslint-enable no-underscore-dangle*/
+
+        if (userToSign.email) {
 
           delete userToSign.email;
         }
 
         return {
-          'id': userToSign.id,
+          'id': underscoreId,
           'sessionExpiration': sessionExpiration,
           'token': jwt.sign(userToSign, jwtSalt, {
             'expiresIn': sessionExpiration
