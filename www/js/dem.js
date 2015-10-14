@@ -1,56 +1,66 @@
-/*global require*/
 import angular from 'angular';
-/*eslint-disable no-unused-vars*/
-/*jshint +W098 */
-import uiRouter from 'uiRouter';
-import ocLazyLoad from 'ocLazyLoad';
-/*eslint-enable no-unused-vars*/
-/*jshint -W098 */
+import applicationConfiguration from './conf/app-conf';
+import 'ui-router';
+import 'ocLazyLoad';
+import router from './common/router';
 
-const configurationFunction = function configurationFunction($stateProvider, $locationProvider, $ocLazyLoadProvider) {
-    'use strict';
+/*{
+  'url': '/',
+  'controller': 'mainCtrl',
+  'template': "<p>Hello {{name}}. Would you like to... <a href='renderer'>load lazy</a>?</p>"
+}
 
-    $ocLazyLoadProvider.config({
-      'loadedModules': ['dem'],
-      'debug': true,
-      'asyncLoader': require
-    });
+'renderer', {
+  'url': '/renderer',
+  'controller': 'RendererCtrl',
+  'templateUrl': 'templates/renderer.html',
+  'resolve': {
+    '_loadCtrl': function loadCtrl($ocLazyLoad) {
 
-    $stateProvider
-      .state('home', {
-        'url': '/',
-        'controller': 'mainCtrl',
-        'template': "<p>Hello {{name}}. Would you like to... <a href='renderer'>load lazy</a>?</p>"
-      })
-      .state('renderer', {
-        'url': '/renderer',
-        'controller': 'RendererCtrl',
-        'templateUrl': 'templates/renderer.html',
-        'resolve': {
-          '_loadCtrl': function loadCtrl($ocLazyLoad) {
-
-            return $ocLazyLoad.inject({
-              'name': 'dem.renderer',
-              'files': [
-                './dist/renderer'
-              ]
-            });
-          }
-        }
+      return $ocLazyLoad.inject({
+        'name': 'dem.renderer',
+        'files': [
+          './dist/renderer'
+        ]
       });
+    }
+  }
+}
 
-    $locationProvider.html5Mode(true);
-  };
+*/
 
-angular.module('dem', [
-  'ui.router',
-  'oc.lazyLoad'
-])
-.config(['$stateProvider', '$locationProvider', '$ocLazyLoadProvider', configurationFunction])
-.controller('mainCtrl', function mainCtrl($scope) {
-  'use strict';
+let routes = [
+      {
+        'stateName': 'home',
+        'urlPrefix': '/',
+        'type': 'load',
+        'src': 'dist/home/home.js'
+      },
+      {
+        'stateName': 'renderer',
+        'urlPrefix': '/renderer',
+        'type': 'load',
+        'src': './dashboard/dashboard'
+      },
+      {
+        'stateName': 'admin',
+        'urlPrefix': '/admin',
+        'type': 'load',
+        'src': 'app/admin/admin'
+      },
+      {
+        'stateName': 'forms',
+        'urlPrefix': '/forms',
+        'type': 'load',
+        'src': 'app/forms/forms'
+      }
+    ]
+  , demApplication = angular.module('dem', [
+    'ui.router',
+    'oc.lazyLoad'
+  ]);
 
-  $scope.name = 'World';
-});
+demApplication.config(router(demApplication, routes))
+  .config(applicationConfiguration);
 
-export default 'dem';
+export default demApplication;

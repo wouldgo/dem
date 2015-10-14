@@ -11,6 +11,7 @@
     , cssFolder = path.resolve(__dirname, baseWWWFolder, 'css')
     , templatesFolder = path.resolve(__dirname, baseWWWFolder, 'templates')
     , requireJSBootFile = path.resolve(__dirname, baseWWWFolder, 'require-boot.js')
+    , routesJsonFile = path.resolve(__dirname, baseWWWFolder, 'routes.json')
     , getHtmlFile = {
         'method': 'GET',
         'path': '/{path*}',
@@ -19,6 +20,16 @@
         },
         'handler': {
           'file': htmlIndexFile
+        }
+      }
+    , getRoutesJsonFile = {
+        'method': 'GET',
+        'path': '/routes.json',
+        'config': {
+          'auth': false
+        },
+        'handler': {
+          'file': routesJsonFile
         }
       }
     , getRequireJSBootFile = {
@@ -99,6 +110,7 @@
 
   module.exports = [
     getHtmlFile,
+    getRoutesJsonFile,
     getCssFolder,
     getRequireJSBootFile,
     getLibFolder,

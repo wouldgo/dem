@@ -1,10 +1,11 @@
 /*global document*/
 import angular from 'angular';
-import $ from 'jquery';
 import dem from './dem';
 
-const documentReference = $(document);
+angular.element(document).ready(() => {
 
-angular.bootstrap(documentReference, [
-  dem
-]);
+  'use strict';
+  angular.bootstrap(document, [dem.name], {
+    'strictDi': true
+  });
+});
