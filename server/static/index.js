@@ -10,7 +10,7 @@
     , jsFolder = path.resolve(__dirname, baseWWWFolder, 'js')
     , cssFolder = path.resolve(__dirname, baseWWWFolder, 'css')
     , templatesFolder = path.resolve(__dirname, baseWWWFolder, 'templates')
-    , requireJSBootFile = path.resolve(__dirname, baseWWWFolder, 'require-boot.js')
+    , bootJSFile = path.resolve(__dirname, baseWWWFolder, 'boot.js')
     , routesJsonFile = path.resolve(__dirname, baseWWWFolder, 'routes.json')
     , getHtmlFile = {
         'method': 'GET',
@@ -32,14 +32,14 @@
           'file': routesJsonFile
         }
       }
-    , getRequireJSBootFile = {
+    , getBootJSFile = {
         'method': 'GET',
-        'path': '/require-boot.js',
+        'path': '/boot.js',
         'config': {
           'auth': false
         },
         'handler': {
-          'file': requireJSBootFile
+          'file': bootJSFile
         }
       }
     , getCssFolder = {
@@ -112,7 +112,7 @@
     getHtmlFile,
     getRoutesJsonFile,
     getCssFolder,
-    getRequireJSBootFile,
+    getBootJSFile,
     getLibFolder,
     getJsFolder,
     getTemplatesFolder,

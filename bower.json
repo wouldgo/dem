@@ -20,10 +20,12 @@
   "dependencies": {
     "jquery": "~2.1.4",
     "three.js": "~0.71.0",
-    "requirejs": "~2.1.20",
     "angular": "~1.4.7",
     "oclazyload": "~1.0.6",
     "angular-ui-router": "~0.2.15",
-    "ui-router-extras": "~0.1.0"
+    "ui-router-extras": "~0.1.0",
+    "system.js": "~0.19.4",
+    "plugin-json": "https://github.com/systemjs/plugin-json.git#0.1.0",
+    "plugin-text": "https://github.com/systemjs/plugin-text.git#0.0.2"
   }
 }

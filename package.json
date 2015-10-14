@@ -39,6 +39,7 @@
     "lab": "*",
     "minimist": "*",
     "node-inspector": "*",
+    "require-dir": "*",
     "webpack": "*"
   }
 }

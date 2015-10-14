@@ -3,7 +3,6 @@
 const configurationFunction = function configurationFunction($urlRouterProvider, $locationProvider, $compileProvider, $logProvider, $httpProvider, $ocLazyLoadProvider) {
   'use strict';
 
-
   $locationProvider.html5Mode(true);
   $httpProvider.useApplyAsync(true);
   $urlRouterProvider.otherwise('/');

@@ -1,3 +1,4 @@
+/*global System*/
 import 'ui-router-extras';
 
 const routing = function routing(module, futureRoutes) {
@@ -10,31 +11,27 @@ const routing = function routing(module, futureRoutes) {
 
       return $q((resolve, reject) => {
 
-        $ocLazyLoad.load(futureState.src).then(function onLoaded() {
+        System.import(futureState.src).then(loaded => {
+          var newModule = loaded;
 
-          resolve();
-        }).catch(function onError() {
+          if (!loaded.name) {
+            let key = Object.keys(loaded);
 
-          reject();
+            newModule = loaded[key[0]];
+          }
+
+          $ocLazyLoad.load(newModule).then(function onLoaded() {
+
+            resolve();
+          }).catch(function onError() {
+
+            reject();
+          });
         });
       });
-
-      /*System.import(futureState.src).then(loaded => {
-        var newModule = loaded;
-        if (!loaded.name) {
-          var key = Object.keys(loaded);
-          newModule = loaded[key[0]];
-        }
-
-        $ocLazyLoad.load(newModule).then(function onLoaded() {
-          def.resolve();
-        }, function() {
-          console.log('error loading: ' + loaded.name);
-        });
-      });*/
     }]);
 
-    futureRoutes.forEach(function iterator(aFutureRoute) {
+    futureRoutes.forEach((aFutureRoute) => {
 
       $futureStateProvider.futureState(aFutureRoute);
     });

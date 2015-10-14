@@ -1,8 +1,9 @@
 import angular from 'angular';
-import applicationConfiguration from './conf/app-conf';
 import 'ui-router';
 import 'ocLazyLoad';
-import router from './common/router';
+import applicationConfiguration from './conf/app-conf.js';
+import router from './common/router.js';
+import routes from '../../js/routes.json!';
 
 /*{
   'url': '/',
@@ -29,33 +30,7 @@ import router from './common/router';
 
 */
 
-let routes = [
-      {
-        'stateName': 'home',
-        'urlPrefix': '/',
-        'type': 'load',
-        'src': 'dist/home/home.js'
-      },
-      {
-        'stateName': 'renderer',
-        'urlPrefix': '/renderer',
-        'type': 'load',
-        'src': './dashboard/dashboard'
-      },
-      {
-        'stateName': 'admin',
-        'urlPrefix': '/admin',
-        'type': 'load',
-        'src': 'app/admin/admin'
-      },
-      {
-        'stateName': 'forms',
-        'urlPrefix': '/forms',
-        'type': 'load',
-        'src': 'app/forms/forms'
-      }
-    ]
-  , demApplication = angular.module('dem', [
+let demApplication = angular.module('dem', [
     'ui.router',
     'oc.lazyLoad'
   ]);
