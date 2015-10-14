@@ -2,5 +2,5 @@
 (function gulpConfig(require) {
   'use strict';
 
-  require('require-dir')('build/tasks');
+  require('require-dir')('conf/tasks');
 }(require));

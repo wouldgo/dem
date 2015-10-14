@@ -11,11 +11,10 @@ const configurationFunction = function configurationFunction($urlRouterProvider,
 
     $logProvider.debugEnabled(false);
     $compileProvider.debugInfoEnabled(false);
+    $ocLazyLoadProvider.config({
+      'debug': true
+    });
   }
-
-  $ocLazyLoadProvider.config({
-    'debug': true
-  });
 };
 
 export default ['$urlRouterProvider',

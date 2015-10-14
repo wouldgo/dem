@@ -3,7 +3,7 @@ import 'ui-router';
 import 'ocLazyLoad';
 import applicationConfiguration from './conf/app-conf.js';
 import router from './common/router.js';
-import routes from '../../js/routes.json!';
+import routes from './routes.json!';
 
 /*{
   'url': '/',

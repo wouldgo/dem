@@ -3,10 +3,9 @@
   'use strict';
 
   System.config({
-    'baseUrl': '.',
+    'baseUrl': '/dist',
     'paths': {
-      '*': '*.js',
-      'bower:*': '/lib/*.js'
+      '*': '*.js'
     },
     'buildCSS': true,
     'separateCSS': false
@@ -15,7 +14,6 @@
   System.config({
     'map': {
       'json': 'lib/plugin-json/json',
-      'text': 'lib/plugin-text/text',
       'jquery': 'lib/jquery/dist/jquery',
       'three': 'lib/three.js/three',
       'angular': 'lib/angular/angular',
@@ -24,7 +22,6 @@
       'ui-router-extras': 'lib/ui-router-extras/release/ct-ui-router-extras'
     },
     'meta': {
-
       'jquery': {
         'exports': '$'
       },

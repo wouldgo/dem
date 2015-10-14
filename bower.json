@@ -25,7 +25,6 @@
     "angular-ui-router": "~0.2.15",
     "ui-router-extras": "~0.1.0",
     "system.js": "~0.19.4",
-    "plugin-json": "https://github.com/systemjs/plugin-json.git#0.1.0",
-    "plugin-text": "https://github.com/systemjs/plugin-text.git#0.0.2"
+    "plugin-json": "https://github.com/systemjs/plugin-json.git#0.1.0"
   }
 }

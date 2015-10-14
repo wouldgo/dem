@@ -16,7 +16,7 @@
   			display: none;
   		}
     </style>
-    <link rel="stylesheet" href="css/styles.css?v=1.0">
+    <link rel="stylesheet" href="dist/style/styles.css?v=1.0">
   </head>
   <body ng-cloak>
     <h1>Dem</h1>
@@ -31,24 +31,7 @@
     <div ui-view></div>
     <script type="text/javascript" src="lib/system.js/dist/system.js" charset="utf-8"></script>
     <script type="text/javascript" src="boot.js" charset="utf-8"></script>
-
-    <!-- PROD
-	<script type="text/javascript">
-		var systemLocate = System.locate;
-		System.locate = function(load) {
-		var System = this;
-		return Promise.resolve(systemLocate.call(this, load)).then(function(address) {
-			if(address.indexOf('bust') > -1 ||
-			address.indexOf('css') > -1 ||
-			address.indexOf('json') > -1) return address;
-			return address + System.cacheBust;
-		});
-		}
-		System.cacheBust = '?bust={{hash}}';
-	</script>
-	END -->
-
-  	<script type="text/javascript">
+  	<script type="text/javascript" charset="utf-8">
   		System.import('dist/index');
   	</script>
   </body>
