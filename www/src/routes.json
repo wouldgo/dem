@@ -1,0 +1,14 @@
+[
+  {
+    "stateName": "home",
+    "urlPrefix": "/",
+    "type": "load",
+    "src": "dist/home/home"
+  },
+  {
+    "stateName": "renderer",
+    "urlPrefix": "/renderer",
+    "type": "load",
+    "src": "/renderer/renderer"
+  }
+]

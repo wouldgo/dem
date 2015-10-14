@@ -6,11 +6,33 @@
     <title>Dem</title>
     <meta name="description" content="Dem test">
     <meta name="author" content="wouldgo84@gmail.com">
-    <link rel="stylesheet" href="css/styles.css?v=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  	<meta name="apple-mobile-web-app-capable" content="yes" />
+  	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  	<meta name="viewport" content="width = device-width, minimal-ui, initial-scale = 1, user-scalable = no" />
+  	<meta name="apple-mobile-web-app-title" content="Dem App" />
+    <style type="text/css">
+      [ng-cloak] {
+  			display: none;
+  		}
+    </style>
+    <link rel="stylesheet" href="dist/style/styles.css?v=1.0">
   </head>
-  <body>
+  <body ng-cloak>
     <h1>Dem</h1>
+    <noscript>
+  		<div class="deprecation-warning">
+  			<h1>Please enable Javascript</h1>
+  			<p>Demo requires your browser to have Javascript enabled.
+  			<a href="http://enable-javascript.com" target="_blank">Learn more</a></p>
+  		</div>
+	  </noscript>
+
     <div ui-view></div>
-    <script type="text/javascript" data-main="require-boot.js" src="lib/requirejs/require.js" charset="utf-8"></script>
+    <script type="text/javascript" src="lib/system.js/dist/system.js" charset="utf-8"></script>
+    <script type="text/javascript" src="boot.js" charset="utf-8"></script>
+  	<script type="text/javascript" charset="utf-8">
+  		System.import('dist/index');
+  	</script>
   </body>
 </html>
