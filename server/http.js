@@ -11,11 +11,10 @@
     , lout = require('lout')
     , server = new Hapi.Server();
 
-  module.exports = function exportingFunction(connectionConfiguration, sessionExpiration, model, ignoreStaticContent) {
+  module.exports = function exportingFunction(connectionConfiguration, sessionExpiration, model) {
 
     var identification = require('./identification')(sessionExpiration, model, joi, boom)
-      , demRoutes = require('./dem')(joi, boom)
-      , staticRoutes = require('./static');
+      , demRoutes = require('./dem')(joi, boom);
 
     server.connection(connectionConfiguration);
     server.register([hapiJwt, Inert, vision, lout], function onRegister(err) {
@@ -36,13 +35,6 @@
         Array.isArray(identification.routes)) {
 
         server.route(identification.routes);
-      }
-
-      if (!ignoreStaticContent &&
-        staticRoutes &&
-        Array.isArray(staticRoutes)) {
-
-        server.route(staticRoutes);
       }
     });
 
