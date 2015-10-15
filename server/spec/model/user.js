@@ -15,7 +15,7 @@
       }
     , mockedDb = require('../helper/mock-user')(mockedUser, MockObjectId)
     , mockedSchema = require('../helper/mock-schema')
-    , userModel = require('../../server/model/user')(mockedDb, mockedSchema, MockObjectId);
+    , userModel = require('../../model/user')(mockedDb, mockedSchema, MockObjectId);
 
   describe('user mongodb model module', function testSuite() {
 

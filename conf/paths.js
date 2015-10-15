@@ -22,6 +22,6 @@
       'www/src/**/*.gif',
       'www/src/**/*.eot'
     ],
-    'tests': 'spec/e2e/**/*.spec.js'
+    'tests': 'www/spec/e2e/**/*.spec.js'
   };
 }(module));

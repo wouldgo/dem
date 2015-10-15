@@ -1,11 +1,12 @@
-/*global window,System*/
-(function requireConfig(window, System) {
+/*global System*/
+(function requireConfig(System) {
   'use strict';
 
   System.config({
-    'baseUrl': '/dist',
+    'baseUrl': '.',
     'paths': {
-      '*': '*.js'
+      '*': '*.js',
+      'bower:*': 'lib/*'
     },
     'buildCSS': true,
     'separateCSS': false
@@ -13,13 +14,13 @@
 
   System.config({
     'map': {
-      'json': 'lib/plugin-json/json',
-      'jquery': 'lib/jquery/dist/jquery',
-      'three': 'lib/three.js/three',
-      'angular': 'lib/angular/angular',
-      'ocLazyLoad': 'lib/oclazyload/dist/ocLazyLoad',
-      'ui-router': 'lib/angular-ui-router/release/angular-ui-router',
-      'ui-router-extras': 'lib/ui-router-extras/release/ct-ui-router-extras'
+      'json': 'bower:plugin-json/json.js',
+      'jquery': 'bower:jquery/dist/jquery.js',
+      'three': 'bower:three.js/three.js',
+      'angular': 'bower:angular/angular.js',
+      'ocLazyLoad': 'bower:oclazyload/dist/ocLazyLoad.js',
+      'ui-router': 'bower:angular-ui-router/release/angular-ui-router.js',
+      'ui-router-extras': 'bower:ui-router-extras/release/ct-ui-router-extras.js'
     },
     'meta': {
       'jquery': {
@@ -51,4 +52,4 @@
       }
     }
   });
-}(window, System));
+}(System));
