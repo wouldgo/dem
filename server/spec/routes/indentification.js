@@ -13,9 +13,9 @@
     , mockedDb = require('../helper/mock-user')(mockedUser, MockObjectId)
     , mockedSchema = require('../helper/mock-schema')
     , model = {
-      'users': require('../../server/model/user')(mockedDb, mockedSchema, MockObjectId)
+      'users': require('../../model/user')(mockedDb, mockedSchema, MockObjectId)
     }
-    , identification = require('../../server/identification')(86400, model, joi, boom)
+    , identification = require('../../identification')(86400, model, joi, boom)
     , code = require('code')
     , lab = require('lab').script()
     , describe = lab.describe

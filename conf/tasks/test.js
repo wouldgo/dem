@@ -3,21 +3,29 @@
   'use strict';
 
   var gulp = require('gulp')
-    , karma = require('karma').server
+    , Karma = require('karma').Server
     , gulpProtractor = require('gulp-protractor')
-    , paths = require('../paths');
+    , path = require('path')
+    , paths = require('../paths')
+    , karmaConfFile = path.resolve(__dirname, '../..', 'karma.conf.js')
+    , protractorConfFile = path.resolve(__dirname, '../..', 'protractor.conf.js');
 
   gulp.task('test', ['build'], function onTest(done) {
-    karma.start({
-      'configFile': __dirname + '/../../karma.conf.js',
-      'singleRun': true
-    }, done);
+    var karma = new Karma({
+      'configFile': karmaConfFile
+    }, function onFinish() {
+
+      done();
+    });
+
+    karma.start();
   });
 
-  gulp.task('sauce-test', function onSauce(done) {
+  gulp.task('e2e-test', function onE2e(done) {
     gulp.src(paths.tests)
     .pipe((gulpProtractor.protractor({
-      'configFile': __dirname + '/../../protractor.conf.js'
+      'configFile': protractorConfFile,
+      'args': ['--baseUrl', 'http://127.0.0.1:8000']
     }))
     .on('error', function onError(e) {
       throw e;
