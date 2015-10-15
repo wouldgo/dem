@@ -14,8 +14,8 @@
 
   gulp.task('watch', ['lint', 'build'], function onWatch() {
 
-    gulp.watch([paths.source], ['es6', 'lint', browserSync.reload]).on('change', changed);
+    gulp.watch([paths.source], ['es6', browserSync.reload]).on('change', changed);
     gulp.watch([paths.html], ['html', browserSync.reload]).on('change', changed);
-    gulp.watch([paths.less], ['less']).on('change', changed);
+    gulp.watch([paths.scss.file], ['scss']).on('change', changed);
   });
 }(require, console));

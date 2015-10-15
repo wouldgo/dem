@@ -1,5 +1,12 @@
-<h5>Admin</h5>
-
-<!--a ui-sref="admin.builder" href="#">Builder</a>
-<a ui-sref="admin.users" href="#">Users</a -->
-<!--ui-view></ui-view -->
+<h3>Welcome</h3>
+<p>
+  To start upload your file here (geotiff or arcASCII only):
+  <span>
+    <ng-form ng-submit="homeCtrl.processFile(homeCtrl.file)">
+      <input type="file" ng-model="homeCtrl.file" name="dem" accept="*/*" />
+      <input type="button" name="sumbit" value="Upload">
+    </ng-form>
+  </span>
+  <span ng-click="homeCtrl.processFile('aaa')">AAA</span>
+</p>
+{{ homeCtrl }}

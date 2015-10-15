@@ -9,6 +9,7 @@
   gulp.task('serve', ['watch'], function onServe(done) {
     browserSync({
       'open': true,
+      'ui': false,
       'port': 3000,
       'server': {
         'baseDir': ['./www'],

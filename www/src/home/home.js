@@ -1,5 +1,5 @@
 import angular from 'angular';
-import homeCtrl from './home.controller.js';
+import {HomeController} from './home.controller.js';
 import homeTemplate from 'dist/home/home.tpl';
 
 const configurationModule = ['$stateProvider', function configurationModule($stateProvider) {
@@ -8,7 +8,7 @@ const configurationModule = ['$stateProvider', function configurationModule($sta
   $stateProvider.state('home', {
     'url': '/',
     'templateUrl': homeTemplate.name,
-    'controller': homeCtrl,
+    'controller': HomeController,
     'controllerAs': 'homeCtrl'
   });
 }];

@@ -1,18 +1,15 @@
 // jscs:disable disallowAnonymousFunctions
 // jscs:disable requireNamedUnassignedFunctions
 // jscs:disable requireSpacesInAnonymousFunctionExpression
-export class HomeController {
+class HomeService {
 
   /*@ngInject*/
-  constructor($log) {
-    this.log = $log;
-  }
-
-  processFile(file) {
-    this.log.info(file);
+  constructor($http) {
+    this.http = $http;
   }
 }
 
 // jscs:enable disallowAnonymousFunctions
 // jscs::enable requireNamedUnassignedFunctions
 // jscs::enable requireSpacesInAnonymousFunctionExpression
+export default HomeService;

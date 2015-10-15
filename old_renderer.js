@@ -1,9 +1,31 @@
+/*{
+  'url': '/',
+  'controller': 'mainCtrl',
+  'template': "<p>Hello {{name}}. Would you like to... <a href='renderer'>load lazy</a>?</p>"
+}
 
+'renderer', {
+  'url': '/renderer',
+  'controller': 'RendererCtrl',
+  'templateUrl': 'templates/renderer.html',
+  'resolve': {
+    '_loadCtrl': function loadCtrl($ocLazyLoad) {
 
+      return $ocLazyLoad.inject({
+        'name': 'dem.renderer',
+        'files': [
+          './dist/renderer'
+        ]
+      });
+    }
+  }
+}
 
-
-
-
+/*
+System.import('assets/' + newVal + '.css!').then(loaded => {
+      angular.element(document.body).addClass(newVal);
+  });
+*/
 
 /*global window*/
 import THREE from 'three';
