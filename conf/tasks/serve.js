@@ -4,6 +4,7 @@
 
   var gulp = require('gulp')
     , path = require('path')
+    , runSequence = require('run-sequence')
     , browserSync = require('browser-sync')
     , nodemon = require('gulp-nodemon')
     , proxyMiddleware = require('http-proxy-middleware')
@@ -16,19 +17,27 @@
         }
       });
 
-  gulp.task('serve', ['watch'], function onServe(done) {
+  gulp.task('run-nodemon', function runNodemon() {
+
     nodemon({
       'script': serverIndexFile
     })
     .on('restart', function onRestart() {
 
+      /* eslint-disable no-console */
       console.log('restarted!');
+      /* eslint-enable no-console */
     })
     .on('crash', function onCrash() {
 
+      /* eslint-disable no-console */
       console.log('crashed');
+      /* eslint-enable no-console */
       nodemon.emit('restart');
     });
+  });
+
+  gulp.task('run-browser-sync', function runBrowserSync(done) {
 
     browserSync({
       'open': true,
@@ -39,5 +48,10 @@
         'middleware': [proxy, historyApiFallback()]
       }
     }, done);
+  });
+
+  gulp.task('serve', ['watch'], function onServe(done) {
+
+    return runSequence('run-nodemon', ['run-browser-sync'], done);
   });
 }(console, __dirname, require));

@@ -1,11 +1,13 @@
 /*global window*/
 
-const configurationFunction = function configurationFunction($urlRouterProvider, $locationProvider, $compileProvider, $logProvider, $httpProvider, $ocLazyLoadProvider) {
+/*@ngInject*/
+const configurationFunction = function configurationFunction($urlRouterProvider, $locationProvider, $compileProvider, $logProvider, $httpProvider, $ocLazyLoadProvider/*, $mdThemingProvider*/) {
   'use strict';
 
   $locationProvider.html5Mode(true);
   $httpProvider.useApplyAsync(true);
   $urlRouterProvider.otherwise('/');
+  //$mdThemingProvider.theme('Deep Orange');
 
   if (!window.debug) {
 
@@ -23,4 +25,5 @@ export default ['$urlRouterProvider',
   '$logProvider',
   '$httpProvider',
   '$ocLazyLoadProvider',
+  '$mdThemingProvider',
   configurationFunction];

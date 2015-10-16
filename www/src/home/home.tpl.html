@@ -1,12 +1,41 @@
-<h3>Welcome</h3>
-<p>
-  To start upload your file here (geotiff or arcASCII only):
-  <span>
-    <ng-form ng-submit="homeCtrl.processFile(homeCtrl.file)">
-      <input type="file" ng-model="homeCtrl.file" name="dem" accept="*/*" />
-      <input type="button" name="sumbit" value="Upload">
-    </ng-form>
-  </span>
-  <span ng-click="homeCtrl.processFile('aaa')">AAA</span>
-</p>
-{{ homeCtrl }}
+<h2 layout="column" layout-align="end center">
+  Welcome
+</h2>
+<md-card>
+  <md-card-content class="md-body-1">
+    <h2 class="md-title">
+      Now to start visualizing the DEM/DTM data upload your file here below.
+    </h2>
+    <md-tabs md-dynamic-height md-border-bottom>
+      <md-tooltip>
+        Select a file from filesystem or drop in the drop area
+      </md-tooltip>
+      <md-tab label="Select">
+        <md-content class="md-padding">
+          <h3>Select a file from filesystem</h3>
+          <p>
+            <section layout="row" layout-sm="column" layout-align="center center">
+              <md-button class="file-selection-group">Apple</md-button>
+              <md-button class="file-selection-group">Samsung</md-button>
+              <md-button class="file-selection-group">Sony</md-button>
+              <md-button class="file-selection-group">B&amp;O</md-button>
+            </section>
+            <span ngf-select ng-model="homeCtrl.file" name="dem-file" ngf-patter="*/*" accept="*/*">
+              Select
+            </span>
+          </p>
+        </md-content>
+      </md-tab>
+      <md-tab label="Drop">
+        <md-content class="md-padding">
+          <h3>Drop in the drop area</h3>
+          <p>
+            <span ngf-drop ng-model="files" class="drop-box">
+              Drop
+            </span>
+          </p>
+        </md-content>
+      </md-tab>
+    </md-tabs>
+  </md-card-content>
+</md-card>
