@@ -28,6 +28,7 @@
     "plugin-json": "https://github.com/systemjs/plugin-json.git#0.1.0",
     "normalize-css": "normalize.css#~3.0.3",
     "ng-file-upload": "~9.0.12",
-    "angular-material": "~0.11.4"
+    "angular-material": "~0.11.4",
+    "angular-filter": "~0.5.7"
   }
 }

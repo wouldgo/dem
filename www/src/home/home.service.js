@@ -1,15 +1,27 @@
 // jscs:disable disallowAnonymousFunctions
 // jscs:disable requireNamedUnassignedFunctions
 // jscs:disable requireSpacesInAnonymousFunctionExpression
-class HomeService {
+export class HomeService {
 
   /*@ngInject*/
-  constructor($http) {
-    this.http = $http;
+  constructor(Upload) {
+    this.Upload = Upload;
+  }
+
+  processUpload(file) {
+
+    return this.Upload.upload({
+      'url': 'upload/url',
+      'data': {
+        'file': file
+      },
+      'headers': {
+        'Authorization': 'xxx'
+      },
+      'withCredentials': true
+    });
   }
 }
-
 // jscs:enable disallowAnonymousFunctions
 // jscs::enable requireNamedUnassignedFunctions
 // jscs::enable requireSpacesInAnonymousFunctionExpression
-export default HomeService;

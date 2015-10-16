@@ -1,18 +1,15 @@
-/*global module,require*/
-(function pathConfiguration(module, require) {
+/*global module*/
+(function pathConfiguration(module) {
   'use strict';
 
-  var bourbon = require('bourbon').includePaths
-    , paths = {
+  var paths = {
       'base': 'www/src',
       'output': 'www/dist/',
       'source': 'www/src/**/*.js',
       'html': 'www/src/**/*.html',
       'scss': {
         'file': 'www/src/**/*.scss',
-        'options': {
-          'includePaths': bourbon
-        }
+        'options': {}
       },
       'json': 'www/src/**/*.json',
       'templates': 'www/src/**/*.html',
@@ -32,4 +29,4 @@
     };
 
   module.exports = paths;
-}(module, require));
+}(module));

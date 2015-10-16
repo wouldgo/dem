@@ -1,5 +1,6 @@
 import angular from 'angular';
 import 'ng-file-upload';
+import 'angular-filter';
 import {HomeController} from './home.controller.js';
 import homeTemplate from 'dist/home/home.tpl';
 
@@ -17,6 +18,7 @@ const configurationModule = ['$stateProvider', function configurationModule($sta
 export default angular
   .module('home', [
     'ngFileUpload',
+    'angular.filter',
     homeTemplate.name
   ])
   .config(configurationModule);

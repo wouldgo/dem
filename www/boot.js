@@ -25,7 +25,8 @@
       'ng-file-upload': 'bower:ng-file-upload/ng-file-upload.js',
       'angular-aria': 'bower:angular-aria/angular-aria.js',
       'angular-animate': 'bower:angular-animate/angular-animate.js',
-      'angular-material': 'bower:angular-material/angular-material.js'
+      'angular-material': 'bower:angular-material/angular-material.js',
+      'angular-filter': 'bower:angular-filter/dist/angular-filter.js'
     },
     'meta': {
       'jquery': {
@@ -66,6 +67,11 @@
           'angular',
           'angular-aria',
           'angular-animate'
+        ]
+      },
+      'angular-filter': {
+        'deps': [
+          'angular'
         ]
       }
     }

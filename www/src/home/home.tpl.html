@@ -14,17 +14,38 @@
         <md-content class="md-padding">
           <h3>Select a file from filesystem</h3>
           <p>
-            <section layout="row" layout-sm="column" layout-align="center center">
-              <md-button class="file-selection-group">Apple</md-button>
-              <md-button class="file-selection-group">Samsung</md-button>
-              <md-button class="file-selection-group">Sony</md-button>
-              <md-button class="file-selection-group">B&amp;O</md-button>
-            </section>
-            <span ngf-select ng-model="homeCtrl.file" name="dem-file" ngf-patter="*/*" accept="*/*">
-              Select
-            </span>
+            Bla bla...
           </p>
         </md-content>
+        <md-card-footer ng-if="homeCtrl.file">
+          {{ homeCtrl.file.name }}
+          {{ homeCtrl.file.size | byteFmt: 2 }}
+          {{ homeCtrl.file.lastModifiedDate | date: 'medium' }}
+        </md-card-footer>
+        <div class="md-actions" layout="row" layout-align="end center">
+          <section layout="row" layout-sm="column" layout-align="center center">
+            <md-button
+              accept="*/*"
+              ngf-select
+              ngf-patter="*/*"
+              ng-model="homeCtrl.file"
+              ng-disabled="homeCtrl.file"
+              ng-class="{'md-primary': '!homeCtrl.file'}"
+              aria-label="pick-a-file"
+              class="md-raised file-selection-group">Pick a file!</md-button>
+            <md-button
+              ng-click="homeCtrl.file = undefined"
+              ng-disabled="!homeCtrl.file"
+              ng-class="{'md-warn': 'homeCtrl.file'}"
+              aria-label="cancel-selected-file"
+              class="md-raised file-selection-group">Cancel</md-button>
+            <md-button
+              ng-click="homeCtrl.processFile(homeCtrl.file)"
+              ng-disabled="!homeCtrl.file"
+              ng-class="{'md-primary': 'homeCtrl.file'}"
+              class="md-raised file-selection-group">Submit!</md-button>
+          </section>
+        </div>
       </md-tab>
       <md-tab label="Drop">
         <md-content class="md-padding">

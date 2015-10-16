@@ -5,9 +5,9 @@ const routing = function routing(module, futureRoutes) {
   'use strict';
 
   module.requires.push('ct.ui.router.extras.future');
-  var RouterConfig = ['$stateProvider', '$futureStateProvider', function RouterConfig($stateProvider, $futureStateProvider) {
+  var RouterConfig = /*@ngInject*/ function RouterConfig($stateProvider, $futureStateProvider) {
 
-    $futureStateProvider.stateFactory('load', ['$q', '$ocLazyLoad', 'futureState', function stateFactory($q, $ocLazyLoad, futureState) {
+    var stateFactory = /*@ngInject*/ function stateFactory($q, $ocLazyLoad, futureState) {
 
       return $q((resolve, reject) => {
 
@@ -29,13 +29,14 @@ const routing = function routing(module, futureRoutes) {
           });
         });
       });
-    }]);
+    };
 
+    $futureStateProvider.stateFactory('load', stateFactory);
     futureRoutes.forEach((aFutureRoute) => {
 
       $futureStateProvider.futureState(aFutureRoute);
     });
-  }];
+  };
 
   return RouterConfig;
 };

@@ -4,9 +4,8 @@
 export class HomeController {
 
   /*@ngInject*/
-  constructor($log, Upload) {
+  constructor($log) {
     this.log = $log;
-    this.Upload = Upload;
   }
 
   processFile(file) {
