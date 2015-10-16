@@ -16,7 +16,6 @@
         'karma-chrome-launcher',
         'karma-firefox-launcher',
         'karma-jasmine',
-        'karma-junit-reporter',
         'karma-coverage',
         'karma-verbose-reporter'
       ],
@@ -24,15 +23,14 @@
       'colors': true,
       // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
       'browsers': [
-        //'PhantomJS',
-        'Chrome'//,
-        //'Firefox'
+        'Chrome',
+        'Firefox'
       ],
       // possible values: 'dots', 'progress'
       // available reporters: https://npmjs.org/browse/keyword/karma-reporter
       'reporters': ['progress',
-        'verbose'//,
-        //'coverage'
+        'verbose',
+        'coverage'
       ],
 
       // list of files / patterns to load in the browser
@@ -53,8 +51,7 @@
             'es6-module-loader': '../node_modules/es6-module-loader/dist/es6-module-loader.js',
             'systemjs': '../node_modules/systemjs/dist/system.js',
             'system-polyfills': '../node_modules/systemjs/dist/system-polyfills.js',
-            'babel': '../node_modules/babel-core/browser.js',
-            'phantomjs-polyfill': '../node_modules/phantomjs-polyfill/bind-polyfill.js'
+            'babel': '../node_modules/babel-core/browser.js'
           }
         },
         'serveFiles': [
