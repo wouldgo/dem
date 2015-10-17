@@ -1,7 +1,7 @@
 // jscs:disable disallowAnonymousFunctions
 // jscs:disable requireNamedUnassignedFunctions
 // jscs:disable requireSpacesInAnonymousFunctionExpression
-export class HomeController {
+export class IdentificationController {
 
   /*@ngInject*/
   constructor($log) {

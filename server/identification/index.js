@@ -10,6 +10,7 @@
           .slice(0, jwtSaltLength)
           .replace(/\+/g, '0')
           .replace(/\//g, '0')
+      , comunicator = require('comunicator')(jwtSalt)
       , validateAuth = function validateAuth(model, decoded, request, callback) {
 
         if (decoded &&
@@ -41,6 +42,7 @@
   module.exports = function exportingFunction(sessionExpiration, model, joi, boom) {
 
     return {
+      'comunicator': comunicator,
       'routes': identificationRoutes(jwtSalt, sessionExpiration, model, joi, boom),
       'strategy': {
         'key': jwtSalt,

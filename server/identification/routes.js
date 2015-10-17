@@ -75,9 +75,9 @@
 
         if (request &&
           request.query &&
-          request.query.email) {
+          request.query.identifier) {
 
-          model.users.getByEmail(request.query.email).then(function onQueryResult(result) {
+          model.users.getById(request.query.identifier).then(function onQueryResult(result) {
 
             if (result) {
 
@@ -106,16 +106,16 @@
 
         if (request &&
           request.query &&
-          request.query.email) {
+          request.query.identifier) {
 
-          model.users.getByEmail(request.query.email).then(function onQueryResult(result) {
+          model.users.getById(request.query.identifier).then(function onQueryResult(result) {
 
             if (result) {
 
               return result;
             }
 
-            reply(boom.badData('You must provide an email stored'));
+            reply(boom.badData('You must provide an identifier stored'));
           }).then(function onInquirySuccess(result) {
 
             /*jscs: disable disallowDanglingUnderscores*/
@@ -160,7 +160,7 @@
           'auth': false,
           'validate': {
             'query': {
-              'email': joi.string().email().required()
+              'identifier': joi.string().token().required()
             }
           }
         },
@@ -173,7 +173,7 @@
           'auth': 'jwt',
           'validate': {
             'query': {
-              'email': joi.string().email().required()
+              'identifier': joi.string().token().required()
             }
           }
         },

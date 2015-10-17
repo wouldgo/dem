@@ -1,0 +1,20 @@
+[
+  {
+    "stateName": "identification",
+    "urlPrefix": "/",
+    "type": "load",
+    "src": "dist/identification/index.js"
+  },
+  {
+    "stateName": "file-submit",
+    "urlPrefix": "/file-submit",
+    "type": "load",
+    "src": "dist/file-submit/index.js"
+  },
+  {
+    "stateName": "renderer",
+    "urlPrefix": "/renderer",
+    "type": "load",
+    "src": "/renderer/index.js"
+  }
+]

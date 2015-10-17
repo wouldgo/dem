@@ -28,7 +28,11 @@
     it('should be an object', function testScenario(done) {
 
       expect(identification).to.be.an.object();
-      expect(identification).to.only.include(['routes', 'strategy']);
+      expect(identification).to.only.include([
+        'comunicator',
+        'routes',
+        'strategy'
+      ]);
       done();
     });
 
@@ -113,7 +117,7 @@
         expect(getRoute.method).to.equal('GET');
         getRoute.handler({
           'query': {
-            'email': 'test@test.test'
+            'identifier': 123
           }
         }, thisReply);
       });
@@ -130,7 +134,7 @@
         expect(getRoute.method).to.be.equal('GET');
         getRoute.handler({
           'query': {
-            'email': 'test1@test.test'
+            'identifier': 987
           }
         }, thisReply);
       });
@@ -150,7 +154,7 @@
         expect(deleteRoute.method).to.be.equals('DELETE');
         deleteRoute.handler({
           'query': {
-            'email': 'test@test.test'
+            'identifier': 123
           }
         }, thisReply);
       });
@@ -160,14 +164,14 @@
 
           expect(data instanceof Error).to.be.true();
           expect(data.output.statusCode).to.be.equals(422);
-          expect(data.output.payload.message).to.be.equals('You must provide an email stored');
+          expect(data.output.payload.message).to.be.equals('You must provide an identifier stored');
           done();
         });
 
         expect(deleteRoute.method).to.be.equals('DELETE');
         deleteRoute.handler({
           'query': {
-            'email': 'test1@test.test'
+            'identifier': 987
           }
         }, thisReply);
       });

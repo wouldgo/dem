@@ -10,7 +10,7 @@
     , proxyMiddleware = require('http-proxy-middleware')
     , historyApiFallback = require('connect-history-api-fallback')
     , serverIndexFile = path.resolve(__dirname, '../..', 'server/index.js')
-    , proxy = proxyMiddleware('/api', {
+    , apiProxy = proxyMiddleware('/api', {
         'target': 'http://127.0.0.1:3000',
         'pathRewrite': {
           '/api': ''
@@ -33,7 +33,7 @@
       /* eslint-disable no-console */
       console.log('crashed');
       /* eslint-enable no-console */
-      nodemon.emit('restart');
+      this.emit('restart');
     });
   });
 
@@ -45,7 +45,10 @@
       'port': 8100,
       'server': {
         'baseDir': ['./www'],
-        'middleware': [proxy, historyApiFallback()]
+        'middleware': [
+          apiProxy,
+          historyApiFallback()
+        ]
       }
     }, done);
   });

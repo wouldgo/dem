@@ -3,7 +3,6 @@
   'use strict';
 
   var paths = {
-      'base': 'www/src',
       'output': 'www/dist/',
       'source': 'www/src/**/*.js',
       'html': 'www/src/**/*.html',
@@ -11,9 +10,6 @@
         'file': 'www/src/**/*.scss',
         'options': {}
       },
-      'json': 'www/src/**/*.json',
-      'templates': 'www/src/**/*.html',
-      'outputCss': 'www/dist/**/*.css',
       'assets': [
         'www/src/**/*.json',
         'www/src/**/*.svg',

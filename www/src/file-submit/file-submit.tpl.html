@@ -17,10 +17,10 @@
             Bla bla...
           </p>
         </md-content>
-        <md-card-footer ng-if="homeCtrl.file">
-          {{ homeCtrl.file.name }}
-          {{ homeCtrl.file.size | byteFmt: 2 }}
-          {{ homeCtrl.file.lastModifiedDate | date: 'medium' }}
+        <md-card-footer ng-if="fileSubmitCtrl.file">
+          {{ fileSubmitCtrl.file.name }}
+          {{ fileSubmitCtrl.file.size | byteFmt: 2 }}
+          {{ fileSubmitCtrl.file.lastModifiedDate | date: 'medium' }}
         </md-card-footer>
         <div class="md-actions" layout="row" layout-align="end center">
           <section layout="row" layout-sm="column" layout-align="center center">
@@ -28,21 +28,21 @@
               accept="*/*"
               ngf-select
               ngf-patter="*/*"
-              ng-model="homeCtrl.file"
-              ng-disabled="homeCtrl.file"
-              ng-class="{'md-primary': '!homeCtrl.file'}"
+              ng-model="fileSubmitCtrl.file"
+              ng-disabled="fileSubmitCtrl.file"
+              ng-class="{'md-primary': '!fileSubmitCtrl.file'}"
               aria-label="pick-a-file"
               class="md-raised file-selection-group">Pick a file!</md-button>
             <md-button
-              ng-click="homeCtrl.file = undefined"
-              ng-disabled="!homeCtrl.file"
-              ng-class="{'md-warn': 'homeCtrl.file'}"
+              ng-click="fileSubmitCtrl.file = undefined"
+              ng-disabled="!fileSubmitCtrl.file"
+              ng-class="{'md-warn': 'fileSubmitCtrl.file'}"
               aria-label="cancel-selected-file"
               class="md-raised file-selection-group">Cancel</md-button>
             <md-button
-              ng-click="homeCtrl.processFile(homeCtrl.file)"
-              ng-disabled="!homeCtrl.file"
-              ng-class="{'md-primary': 'homeCtrl.file'}"
+              ng-click="fileSubmitCtrl.processFile(fileSubmitCtrl.file)"
+              ng-disabled="!fileSubmitCtrl.file"
+              ng-class="{'md-primary': 'fileSubmitCtrl.file'}"
               class="md-raised file-selection-group">Submit!</md-button>
           </section>
         </div>

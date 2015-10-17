@@ -49,7 +49,7 @@
   });
 
   gulp.task('html', function onHTML() {
-    return gulp.src(paths.templates)
+    return gulp.src(paths.html)
       .pipe(plumber())
       .pipe(changed(paths.output, {
         'extension': '.html'

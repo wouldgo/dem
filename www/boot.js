@@ -5,28 +5,29 @@
   System.config({
     'baseUrl': '.',
     'paths': {
-      '*': '*.js',
       'bower:*': 'lib/*'
     },
-    'buildCSS': true,
-    'separateCSS': false
+    'buildCSS': false
   });
 
   System.config({
     'map': {
       'json': 'bower:plugin-json/json.js',
-      'jquery': 'bower:jquery/dist/jquery.js',
-      'three': 'bower:three.js/three.js',
-      'angular': 'bower:angular/angular.js',
-      'ocLazyLoad': 'bower:oclazyload/dist/ocLazyLoad.js',
-      'ui-router': 'bower:angular-ui-router/release/angular-ui-router.js',
-      'ui-router-extras': 'bower:ui-router-extras/release/ct-ui-router-extras.js',
-      'ng-file-upload-shim': 'bower:ng-file-upload/ng-file-upload-shim.js',
-      'ng-file-upload': 'bower:ng-file-upload/ng-file-upload.js',
-      'angular-aria': 'bower:angular-aria/angular-aria.js',
-      'angular-animate': 'bower:angular-animate/angular-animate.js',
-      'angular-material': 'bower:angular-material/angular-material.js',
-      'angular-filter': 'bower:angular-filter/dist/angular-filter.js'
+      'css': 'bower:plugin-css/css.js',
+      'jquery': 'bower:jquery/dist/jquery.min.js',
+      'three': 'bower:three.js/three.min.js',
+      'comunicator': 'bower:comunicator/dist/comunicator.min.js',
+      'angular': 'bower:angular/angular.min.js',
+      'ocLazyLoad': 'bower:oclazyload/dist/ocLazyLoad.min.js',
+      'ui-router': 'bower:angular-ui-router/release/angular-ui-router.min.js',
+      'ui-router-extras': 'bower:ui-router-extras/release/ct-ui-router-extras.min.js',
+      'ng-file-upload': 'bower:ng-file-upload/ng-file-upload.min.js',
+      'angular-aria': 'bower:angular-aria/angular-aria.min.js',
+      'angular-animate': 'bower:angular-animate/angular-animate.min.js',
+      'angular-material': 'bower:angular-material/angular-material.min.js',
+      'angular-filter': 'bower:angular-filter/dist/angular-filter.min.js',
+      'angular-local-storage': 'bower:angular-local-storage/dist/angular-local-storage.min.js',
+      'angular-comunicator': 'bower:comunicator/dist/comunicator-angular.min.js'
     },
     'meta': {
       'jquery': {
@@ -58,8 +59,7 @@
       },
       'ng-file-upload': {
         'deps': [
-          'angular',
-          'ng-file-upload-shim'
+          'angular'
         ]
       },
       'angular-material': {
@@ -72,6 +72,16 @@
       'angular-filter': {
         'deps': [
           'angular'
+        ]
+      },
+      'angular-local-storage': {
+        'deps': [
+          'angular'
+        ]
+      },
+      'angular-comunicator': {
+        'deps': [
+          'comunicator'
         ]
       }
     }

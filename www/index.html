@@ -122,9 +122,7 @@
         }
       }
     </style>
-    <link rel="stylesheet" href="lib/angular-material/angular-material.min.css" charset="utf-8">
-    <link rel="stylesheet" href="lib/normalize-css/normalize.css"  charset="utf-8">
-    <link rel="stylesheet" href="dist/style/styles.css?v=1.0"  charset="utf-8">
+    <link rel="stylesheet" href="lib/normalize-css/normalize.css" charset="utf-8">
   </head>
   <body layout="column" layout-align="end center">
     <h1 class="no-javascript md-display-2">
@@ -140,16 +138,22 @@
         </p>
   		</div>
 	  </noscript>
+    <!-- application boot loading -->
     <div class="loading" ng-show="::false">
       <svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
         <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
       </svg>
     </div>
+
+    <!-- application booted loading phases -->
+    <md-progress-linear ng-show="loadingState" md-mode="query"></md-progress-linear>
+
+    <!-- application content here -->
     <md-content ng-cloak flex class="md-padding" ui-view></md-content>
     <script type="text/javascript" src="lib/system.js/dist/system.js" charset="utf-8"></script>
     <script type="text/javascript" src="boot.js" charset="utf-8"></script>
   	<script type="text/javascript" charset="utf-8">
-  		System.import('dist/index');
+  		System.import('dist/index.js');
   	</script>
   </body>
 </html>
