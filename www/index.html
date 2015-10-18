@@ -148,6 +148,48 @@
     <!-- application booted loading phases -->
     <md-progress-linear ng-show="loadingState" md-mode="query"></md-progress-linear>
 
+    <!-- menu -->
+    <md-fab-speed-dial
+      md-open="optionsFab.isOpen"
+      ng-mouseenter="optionsFab.isOpen=true" ng-mouseleave="optionsFab.isOpen=false"
+      class="md-fling md-fab-top-left"
+      md-direction="down">
+      <md-fab-trigger>
+        <md-button
+          class="md-fab md-warn"
+          aria-label="option-trigger">
+          <md-tooltip md-direction="right">Options</md-tooltip>
+          <md-icon aria-label="options"
+          alt="options"
+          md-font-set="material-icons">menu</md-icon>
+        </md-button>
+      </md-fab-trigger>
+      <md-fab-actions ng-controller="IdentificationController as fabBarCtrl">
+        <md-button
+          ng-disabled="!fabBarCtrl.isUserLoggedIn()"
+          ng-click="fabBarCtrl.logout()"
+          class="md-fab md-primary md-mini"
+          aria-label="logout-trigger">
+          <md-tooltip md-direction="right">Logout</md-tooltip>
+          <md-icon
+            aria-label="logout"
+            alt="logout"
+            md-font-set="material-icons">exit_to_app</md-icon>
+        </md-button>
+        <md-button
+          ng-disabled="!fabBarCtrl.isUserLoggedIn()"
+          ng-click="fabBarCtrl.delete()"
+          class="md-fab md-primary md-mini"
+          aria-label="delete-trigger">
+          <md-tooltip md-direction="right">Delete account</md-tooltip>
+          <md-icon
+            aria-label="delete"
+            alt="delete"
+            md-font-set="material-icons">delete</md-icon>
+        </md-button>
+      </md-fab-actions>
+    </md-fab-speed-dial>
+
     <!-- application content here -->
     <md-content ng-cloak flex class="md-padding" ui-view></md-content>
     <script type="text/javascript" src="lib/system.js/dist/system.js" charset="utf-8"></script>

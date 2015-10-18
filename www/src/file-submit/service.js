@@ -1,27 +1,17 @@
-// jscs:disable disallowAnonymousFunctions
-// jscs:disable requireNamedUnassignedFunctions
-// jscs:disable requireSpacesInAnonymousFunctionExpression
-export class FileSubmitService {
+export const FileSubmitFactory = /*@ngInject*/ function FileSubmitFactory($log, Upload, config) {
+  'use strict';
 
-  /*@ngInject*/
-  constructor(Upload) {
-    this.Upload = Upload;
-  }
+  let processUpload = function processUpload(file) {
 
-  processUpload(file) {
-
-    return this.Upload.upload({
-      'url': 'upload/url',
+    return Upload.upload({
+      'url': config.http.address + '/raster',
       'data': {
         'file': file
-      },
-      'headers': {
-        'Authorization': 'xxx'
-      },
-      'withCredentials': true
+      }
     });
-  }
-}
-// jscs:enable disallowAnonymousFunctions
-// jscs::enable requireNamedUnassignedFunctions
-// jscs::enable requireSpacesInAnonymousFunctionExpression
+  };
+
+  return {
+    processUpload
+  };
+};

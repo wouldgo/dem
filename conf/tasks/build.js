@@ -34,17 +34,17 @@
       .pipe(changed(paths.output, {
         'extension': '.js'
       }))
-      .pipe(sourcemaps.init({
+      /*.pipe(sourcemaps.init({
         'loadMaps': true
-      }))
+      }))*/
       .pipe(babel(compilerOptions))
       .pipe(ngAnnotate({
         'sourceMap': true,
         'gulpWarnings': false
-      }))
+      }))/*
       .pipe(sourcemaps.write('/sourcemaps', {
         'sourceRoot': '/src'
-      }))
+      }))*/
       .pipe(gulp.dest(paths.output));
   });
 

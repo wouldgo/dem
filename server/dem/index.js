@@ -11,20 +11,39 @@
 
   module.exports = function exportingFunction(/*joi, boom*/) {
 
-    var getRasterInformations = {
-      'method': 'GET',
-      'path': '/raster-info',
-      'config': {
-        'auth': 'jwt'/*,
-        'validate': {
-          'query': {
-            'oauthio': joi.string().required()
+    var uploadRaster = {
+        'method': 'POST',
+        'path': '/raster',
+        'config': {
+          'auth': 'jwt',
+          'payload': {
+            'maxBytes': 1000000000,
+            'output': 'stream',
+            'parse': true
           }
-        }*/
-      },
-      'handler': handleGetRasterInformations
-    };
+        },
+        'handler': function onUploadRaster(request, reply) {
 
-    return [getRasterInformations];
+          reply('ok');
+        }
+      }
+      , getRasterInformations = {
+        'method': 'GET',
+        'path': '/raster-info',
+        'config': {
+          'auth': 'jwt'/*,
+          'validate': {
+            'query': {
+              'oauthio': joi.string().required()
+            }
+          }*/
+        },
+        'handler': handleGetRasterInformations
+      };
+
+    return [
+      uploadRaster,
+      getRasterInformations
+    ];
   };
 }(require, module));

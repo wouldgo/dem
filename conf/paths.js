@@ -21,7 +21,7 @@
         'www/src/**/*.gif',
         'www/src/**/*.eot'
       ],
-      'tests': 'www/spec/e2e/**/*.spec.js'
+      'e2eTests': 'www/spec/e2e/**/*.spec.js'
     };
 
   module.exports = paths;

@@ -7,9 +7,9 @@ export default angular.module('values', [])
       'name': 'Visual DEM/DTM'
     },
     'http': {
-      'address': 'http://127.0.0.1:3000/api'
+      'address': 'http://localhost:8100/api'
     },
     'ws': {
-      'address': 'ws://127.0.0.1:9876'
+      'address': 'ws://localhost:9876'
     }
   });

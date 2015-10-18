@@ -16,7 +16,6 @@
       'css': 'bower:plugin-css/css.js',
       'jquery': 'bower:jquery/dist/jquery.min.js',
       'three': 'bower:three.js/three.min.js',
-      'comunicator': 'bower:comunicator/dist/comunicator.min.js',
       'angular': 'bower:angular/angular.min.js',
       'ocLazyLoad': 'bower:oclazyload/dist/ocLazyLoad.min.js',
       'ui-router': 'bower:angular-ui-router/release/angular-ui-router.min.js',
@@ -81,7 +80,7 @@
       },
       'angular-comunicator': {
         'deps': [
-          'comunicator'
+          'angular'
         ]
       }
     }

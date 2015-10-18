@@ -1,5 +1,5 @@
 /*eslint-disable one-var*/
-export const authService = /*@ngInject*/ function authService($rootScope, $http, $q, config, Comunicator, $log) {
+export const identificationFactory = /*@ngInject*/ function identificationFactory($rootScope, $http, $q, config) {
   /*eslint-enable one-var*/
   'use strict';
 
@@ -10,7 +10,7 @@ export const authService = /*@ngInject*/ function authService($rootScope, $http,
       if (email) {
 
         $http({
-          'method': 'GET',
+          'method': 'POST',
           'url': config.http.address + '/ident',
           'data': {
             'email': email
@@ -18,9 +18,15 @@ export const authService = /*@ngInject*/ function authService($rootScope, $http,
         }).then((response) => {
 
           if (response &&
-            response.data) {
+            response.data &&
+            response.data.id &&
+            response.data.token) {
 
-            $log.info(response.data); //TODO continue here
+            $rootScope.$emit('identification:user-login', {
+              'userIdentifier': response.data.id,
+              'jwtToken': response.data.token
+            });
+            resolve(email);
           } else {
 
             reject('Malformed response');
@@ -35,73 +41,86 @@ export const authService = /*@ngInject*/ function authService($rootScope, $http,
       }
     });
   }
-  , getToken = function getToken() {
+    , deleteAccount = function deleteAccount() {
 
-    return $q((resolve, reject) => {
+      return $q((resolve, reject) => {
 
-      if ($rootScope.userIdentifier) {
+        if ($rootScope.userIdentifier) {
 
-        $http({
-          'method': 'GET',
-          'url': config.http.address + '/ident',
-          'params': {
-            'identifier': $rootScope.userIdentifier
-          }
-        }).then((response) => {
+          $http({
+            'method': 'DELETE',
+            'url': config.http.address + '/ident',
+            'params': {
+              'identifier': $rootScope.userIdentifier
+            }
+          }).then(() => {
 
-          if (response &&
-            response.data) {
+            $rootScope.$emit('identification:user-logout', {
+              'userIdentifier': $rootScope.userIdentifier
+            });
+            resolve();
+          }).catch((error) => {
 
-            $log.info(response.data); //TODO continue here
-          } else {
+            reject(error);
+          });
+        } else {
 
-            reject('Malformed response');
-          }
-        }).catch((error) => {
+          reject('There is no user identifier');
+        }
+      });
+    }
+    , getToken = function getToken() {
 
-          reject(error);
-        });
-      } else {
+      return $q((resolve, reject) => {
 
-        reject('There is no user identifier');
-      }
-    });
-  }
-  , deleteAccount = function deleteAccount() {
+        if ($rootScope.userIdentifier) {
 
-    return $q((resolve, reject) => {
+          $http({
+            'method': 'GET',
+            'url': config.http.address + '/ident',
+            'params': {
+              'identifier': $rootScope.userIdentifier
+            }
+          }).then((response) => {
 
-      if ($rootScope.userIdentifier) {
+            if (response &&
+              response.data &&
+              response.data.token) {
 
-        $http({
-          'method': 'DELETE',
-          'url': config.http.address + '/ident',
-          'params': {
-            'identifier': $rootScope.userIdentifier
-          }
-        }).then(() => {
+              $rootScope.$emit('identification:user-login', {
+                'userIdentifier': response.data.id,
+                'jwtToken': response.data.token
+              });
+              resolve();
+            } else {
 
-          resolve();
-        }).catch((error) => {
+              reject('Malformed response');
+            }
+          }).catch((error) => {
 
-          reject(error);
-        });
-      } else {
+            reject(error);
+          });
+        } else {
 
-        reject('There is no user identifier');
-      }
-    });
-  };
+          reject('There is no user identifier');
+        }
+      });
+    }
+    , isUserLoggedIn = function isUserLoggedIn() {
+
+      return $rootScope.userIdentifier && $rootScope.jwtToken;
+    };
 
   return {
     createAccount,
+    deleteAccount,
     getToken,
-    deleteAccount
+    isUserLoggedIn
   };
 };
 
 /*eslint-disable one-var*/
-export const userSettings = /*@ngInject*/ function userSettings($rootScope, localStorageService, Comunicator) {
+export const userSettings = /*@ngInject*/ function userSettings($log, $rootScope, localStorageService, Comunicator, IdentificationService) {
   /*eslint-enable one-var*/
   'use strict';
 
@@ -109,6 +128,11 @@ export const userSettings = /*@ngInject*/ function userSettings($rootScope, loca
     , oldJwtToken = localStorageService.get('jwtToken')
     , unregisterUserIdentifierBind = localStorageService.bind($rootScope, 'userIdentifier')
     , unregisterUserJwtTokenBind = localStorageService.bind($rootScope, 'jwtToken')
+    , unregisterUserGetToken = $rootScope.$on('identification:user-get-token', (eventInfos, payload) => {
+
+      IdentificationService.getToken();
+      $log.info(payload);
+    })
     , unregisterUserLogged = $rootScope.$on('identification:user-login', (eventInfos, payload) => {
 
       if (payload &&
@@ -119,11 +143,28 @@ export const userSettings = /*@ngInject*/ function userSettings($rootScope, loca
         $rootScope.jwtToken = payload.jwtToken;
         Comunicator.then((theComunicator) => {
 
-          theComunicator.userIsPresent($rootScope.userIdentifier, $rootScope.jwtToken);
+          if (!theComunicator.whoAmI() ||
+            $rootScope.userIdentifier !== theComunicator.whoAmI()) {
+
+            theComunicator.userIsPresent($rootScope.userIdentifier, $rootScope.jwtToken);
+          }
         });
       } else {
 
         throw new Error('Event identification:user-login with incorrect payload');
+      }
+    })
+    , unregisterUserLoggedOut = $rootScope.$on('identification:user-logout', (eventInfos, payload) => {
+
+      if (payload &&
+        payload.userIdentifier) {
+
+        $rootScope.userIdentifier = undefined;
+        $rootScope.jwtToken = undefined;
+        Comunicator.then((theComunicator) => {
+
+          theComunicator.exit();
+        });
       }
     });
 
@@ -154,8 +195,10 @@ export const userSettings = /*@ngInject*/ function userSettings($rootScope, loca
 
   $rootScope.$on('$destroy', () => {
 
+    unregisterUserGetToken();
     unregisterUserIdentifierBind();
     unregisterUserJwtTokenBind();
     unregisterUserLogged();
+    unregisterUserLoggedOut();
   });
 };

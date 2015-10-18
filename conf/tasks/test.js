@@ -22,7 +22,7 @@
   });
 
   gulp.task('e2e-test', function onE2e(done) {
-    gulp.src(paths.tests)
+    gulp.src(paths.e2eTests)
     .pipe((gulpProtractor.protractor({
       'configFile': protractorConfFile,
       'args': ['--baseUrl', 'http://127.0.0.1:8000']

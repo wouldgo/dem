@@ -5,10 +5,10 @@ import 'ocLazyLoad';
 import 'angular-comunicator';
 import 'lib/angular-material/angular-material.min.css!';
 import '../style/styles.css!';
+import identification from '../identification/index.js';
 import applicationConfiguration from './conf.js';
 import {router, stateEventsHandler} from '../common/router.js';
 import values from '../values/index.js';
-import identification from '../identification/index.js';
 
 let demApplication = angular.module('dem', [
     'ui.router',

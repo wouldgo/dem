@@ -1,8 +1,8 @@
-const authInterceptor = /*@ngInject*/ function authInterceptor($rootScope) {
+const identificationInterceptor = /*@ngInject*/ function identificationInterceptor($rootScope, $q) {
   'use strict';
 
   return {
-    'request': function onRequest(config) {
+    'request': (config) => {
       let jwtToken = $rootScope.jwtToken;
 
       config.headers = config.headers || {};
@@ -12,8 +12,19 @@ const authInterceptor = /*@ngInject*/ function authInterceptor($rootScope) {
         config.headers.Authorization = 'Bearer ' + jwtToken;
       }
       return config;
+    },
+    'responseError': (rejection) => {
+
+      if (rejection &&
+        rejection.status === 401) {
+
+        $rootScope.$emit('identification:user-get-token', rejection.config);
+      } else {
+
+        return $q.reject(rejection);
+      }
     }
   };
 };
 
-export default authInterceptor;
+export default identificationInterceptor;

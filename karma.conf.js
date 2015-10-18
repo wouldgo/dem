@@ -2,8 +2,6 @@
 (function karmaConfiguration(require, module) {
   'use strict';
 
-  var isparta = require('isparta');
-
   module.exports = function exportingFunction(config) {
     config.set({
       'basePath': './www',
@@ -16,7 +14,6 @@
         'karma-chrome-launcher',
         'karma-firefox-launcher',
         'karma-jasmine',
-        'karma-coverage',
         'karma-verbose-reporter'
       ],
       'singleRun': true,
@@ -29,8 +26,7 @@
       // possible values: 'dots', 'progress'
       // available reporters: https://npmjs.org/browse/keyword/karma-reporter
       'reporters': ['progress',
-        'verbose',
-        'coverage'
+        'verbose'
       ],
 
       // list of files / patterns to load in the browser
@@ -64,27 +60,7 @@
 
       // level of logging
       // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-      'logLevel': config.LOG_DEBUG,
-
-      // preprocess matching files before serving them to the browser
-      // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-      'preprocessors': {
-        'src/!(*spec).js': [
-          'coverage'
-        ]
-      },
-
-      // optionally, configure the reporter
-      'coverageReporter': {
-        'type': 'html',
-        'dir': '../coverage/',
-        'instrumenters': {
-          'isparta': isparta
-        },
-        'instrumenter': {
-          '**/*.js': 'isparta'
-        }
-      }
+      'logLevel': config.LOG_DEBUG
     });
   };
 }(require, module));

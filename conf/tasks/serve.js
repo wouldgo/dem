@@ -11,21 +11,33 @@
     , historyApiFallback = require('connect-history-api-fallback')
     , serverIndexFile = path.resolve(__dirname, '../..', 'server/index.js')
     , apiProxy = proxyMiddleware('/api', {
-        'target': 'http://127.0.0.1:3000',
+        'target': 'http://localhost:3000',
         'pathRewrite': {
           '/api': ''
         }
-      });
+      })
+    , paths = require('../paths')
+    , pathToSource = path.resolve(__dirname, '../..', paths.source)
+    , pathToDist = path.resolve(__dirname, '../..', paths.output + '**/*.js');
 
-  gulp.task('run-nodemon', function runNodemon() {
+  gulp.task('run-nodemon', function runNodemon(done) {
 
     nodemon({
-      'script': serverIndexFile
+      'script': serverIndexFile,
+      'ext': 'js',
+      'ignore': [
+        pathToSource,
+        pathToDist
+      ]
     })
-    .on('restart', function onRestart() {
+    .on('start', function onStart() {
+
+      done();
+    })
+    .on('restart', function onRestart(data) {
 
       /* eslint-disable no-console */
-      console.log('restarted!');
+      console.log(data, 'restarted!');
       /* eslint-enable no-console */
     })
     .on('crash', function onCrash() {

@@ -32,6 +32,6 @@
     "angular-filter": "~0.5.7",
     "plugin-css": "https://github.com/systemjs/plugin-css.git#0.1.18",
     "angular-local-storage": "~0.2.3",
-    "comunicator": "~2.2.2"
+    "comunicator": "~2.2.3"
   }
 }
