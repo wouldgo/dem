@@ -4,27 +4,36 @@
 export class FileSubmitController {
 
   /*@ngInject*/
-  constructor($log, FileSubmitService) {
+  constructor($log, $mdToast, FileSubmitService) {
 
     this.log = $log;
+    this.mdToast = $mdToast;
     this.FileSubmitService = FileSubmitService;
 
     this.fileProcessingStarted = false;
+    this.uploading = true;
+    this.erroDuringUpload = this.mdToast.simple()
+      .content('There was an error during the file upload. You should retry.')
+      .position('bottom right')
+      .hideDelay(5000);
   }
 
   processFile(file) {
 
     this.fileProcessingStarted = true;
-    this.FileSubmitService.processUpload(file).then((resp) => {
+    this.FileSubmitService.processUpload(file).then(() => {
 
-      this.log.info('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
-    }, (resp) => {
+      this.uploading = true;
+      this.log.info('Navigate to screen');
+    }, () => {
 
-      this.log.info('Error status: ' + resp.status);
+      this.uploading = false;
+      this.file = undefined;
+      this.mdToast.show(this.erroDuringUpload);
     }, (evt) => {
-      var progressPercentage = parseInt(100.0 * evt.loaded / evt.total, 10);
 
-      this.log.info('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+      this.uploading = true;
+      this.percentage = parseInt(100.0 * evt.loaded / evt.total, 10);
     });
   }
 }

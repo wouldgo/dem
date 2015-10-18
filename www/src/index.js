@@ -6,6 +6,7 @@ angular.element(document).ready(() => {
   'use strict';
 
   angular.element('.no-javascript').removeClass('no-javascript');
+  angular.element('#options-fab-menu').removeAttr('display');
   angular.bootstrap(document, [
     mainModule.name
   ], {

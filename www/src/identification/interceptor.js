@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 const identificationInterceptor = /*@ngInject*/ function identificationInterceptor($rootScope, $q) {
   'use strict';
 
@@ -18,11 +20,22 @@ const identificationInterceptor = /*@ngInject*/ function identificationIntercept
       if (rejection &&
         rejection.status === 401) {
 
-        $rootScope.$emit('identification:user-get-token', rejection.config);
-      } else {
+        return $q((resolve) => {
 
-        return $q.reject(rejection);
+          let unregisterResponseResolved = $rootScope.$on('identification:response-resolved', (eventInfos, payload) => {
+
+            if (angular.equals(payload.request, rejection.config)) {
+
+              unregisterResponseResolved();
+              return resolve(payload.response);
+            }
+          });
+
+          $rootScope.$emit('identification:user-get-token', rejection.config);
+        });
       }
+
+      return $q.reject(rejection);
     }
   };
 };

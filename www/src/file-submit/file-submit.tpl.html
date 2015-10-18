@@ -1,5 +1,5 @@
 <h3 layout="column" layout-align="end center">
-  Now to start visualizing the DEM/DTM data upload your file here below.
+  Before visualizing the DEM/DTM data upload them here.
 </h3>
 <md-card>
   <md-card-content class="md-body-1" ng-if="!fileSubmitCtrl.fileProcessingStarted">
@@ -87,7 +87,7 @@
     </h4>
     <md-content class="md-padding">
       <md-progress-linear md-mode="indeterminate" ng-if="!fileSubmitCtrl.uploading"></md-progress-linear>
-      <md-progress-linear md-mode="determinate" ng-value="" ng-if="fileSubmitCtrl.uploading"></md-progress-linear>
+      <md-progress-linear md-mode="determinate" ng-value="fileSubmitCtrl.percentage" ng-if="fileSubmitCtrl.uploading"></md-progress-linear>
     </md-content>
   </md-card-content>
 </md-card>

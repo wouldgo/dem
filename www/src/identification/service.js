@@ -120,7 +120,7 @@ export const identificationFactory = /*@ngInject*/ function identificationFactor
 };
 
 /*eslint-disable one-var*/
-export const userSettings = /*@ngInject*/ function userSettings($log, $rootScope, localStorageService, Comunicator, IdentificationService) {
+export const userSettings = /*@ngInject*/ function userSettings($log, $rootScope, localStorageService, Comunicator, IdentificationService, $http) {
   /*eslint-enable one-var*/
   'use strict';
 
@@ -130,8 +130,16 @@ export const userSettings = /*@ngInject*/ function userSettings($log, $rootScope
     , unregisterUserJwtTokenBind = localStorageService.bind($rootScope, 'jwtToken')
     , unregisterUserGetToken = $rootScope.$on('identification:user-get-token', (eventInfos, payload) => {
 
-      IdentificationService.getToken();
-      $log.info(payload);
+      IdentificationService.getToken().then(() => {
+
+        return $http(payload);
+      }).then((response) => {
+
+        $rootScope.$emit('identification:response-resolved', {
+          'request': payload,
+          'response': response
+        });
+      });
     })
     , unregisterUserLogged = $rootScope.$on('identification:user-login', (eventInfos, payload) => {
 
