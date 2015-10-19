@@ -4,7 +4,7 @@
 export class IdentificationController {
 
   /*@ngInject*/
-  constructor($log, $rootScope, $state, $mdToast, IdentificationService) {
+  constructor($log, $rootScope, $state, $mdToast, config, IdentificationService) {
     this.log = $log;
     this.rootScope = $rootScope;
     this.state = $state;
@@ -13,11 +13,11 @@ export class IdentificationController {
 
     this.validEmailPlease = this.mdToast.simple()
       .content('Please provide a valid email')
-      .position('bottom right')
-      .hideDelay(5000);
+      .position(config.application.toast.position)
+      .hideDelay(config.application.toast.hideTimeout);
     this.errorDuringAccountCreation = this.mdToast.simple()
-      .position('bottom right')
-      .hideDelay(5000);
+      .position(config.application.toast.position)
+      .hideDelay(config.application.toast.hideTimeout);
   }
 
   create(user) {

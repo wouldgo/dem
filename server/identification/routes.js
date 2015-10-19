@@ -28,7 +28,7 @@
           })
         };
       }
-      , handlePostIdent = function handlePostIdent(jwtSalt, sessionExpiration, boom, model, request, reply) {
+      , handlePostIdent = function handlePostIdent(jwtSalt, sessionExpiration, boom, model, messages, request, reply) {
 
         if (request &&
           request.payload &&
@@ -60,7 +60,7 @@
               }
             } else {
 
-              reply(boom.badImplementation('No data from model inquiry'));
+              reply(boom.badImplementation(messages.noData));
             }
           }).catch(function onError(error) {
 
@@ -68,10 +68,10 @@
           });
         } else {
 
-          reply(boom.badData('Given data are invalid'));
+          reply(boom.badData(messages.invalidData));
         }
       }
-      , handleGetIdent = function handleGetIdent(jwtSalt, sessionExpiration, boom, model, request, reply) {
+      , handleGetIdent = function handleGetIdent(jwtSalt, sessionExpiration, boom, model, messages, request, reply) {
 
         if (request &&
           request.query &&
@@ -91,7 +91,7 @@
               }
             } else {
 
-              reply(boom.unauthorized('You must first create an account'));
+              reply(boom.unauthorized(messages.accountInexistent));
             }
           }).catch(function onError(error) {
 
@@ -99,10 +99,10 @@
           });
         } else {
 
-          reply(boom.badData('Given data are invalid'));
+          reply(boom.badData(messages.invalidData));
         }
       }
-      , handleDeleteIdent = function handleDeleteIdent(boom, model, request, reply) {
+      , handleDeleteIdent = function handleDeleteIdent(boom, model, messages, request, reply) {
 
         if (request &&
           request.query &&
@@ -115,7 +115,7 @@
               return result;
             }
 
-            reply(boom.badData('You must provide an identifier stored'));
+            reply(boom.badData(messages.identifierInexistent));
           }).then(function onInquirySuccess(result) {
 
             /*jscs: disable disallowDanglingUnderscores*/
@@ -134,11 +134,11 @@
           });
         } else {
 
-          reply(boom.badData('Given data are invalid'));
+          reply(boom.badData(messages.invalidData));
         }
       };
 
-  module.exports = function exportingFunction(jwtSalt, sessionExpiration, model, joi, boom) {
+  module.exports = function exportingFunction(jwtSalt, sessionExpiration, model, joi, boom, messages) {
 
     var authRegister = {
         'method': 'POST',
@@ -151,7 +151,7 @@
             }
           }
         },
-        'handler': handlePostIdent.bind(this, jwtSalt, sessionExpiration, boom, model)
+        'handler': handlePostIdent.bind(this, jwtSalt, sessionExpiration, boom, model, messages)
       }
       , authGet = {
         'method': 'GET',
@@ -164,7 +164,7 @@
             }
           }
         },
-        'handler': handleGetIdent.bind(this, jwtSalt, sessionExpiration, boom, model)
+        'handler': handleGetIdent.bind(this, jwtSalt, sessionExpiration, boom, model, messages)
       }
       , authDelete = {
         'method': 'DELETE',
@@ -177,7 +177,7 @@
             }
           }
         },
-        'handler': handleDeleteIdent.bind(this, boom, model)
+        'handler': handleDeleteIdent.bind(this, boom, model, messages)
       };
 
     return [

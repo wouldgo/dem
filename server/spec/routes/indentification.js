@@ -4,6 +4,7 @@
 
   var joi = require('joi')
     , boom = require('boom')
+    , messages = require('../../messages.json')
     , MockObjectId = require('../helper/mock-objectId')
     , mockedUser = {
         '_id': new MockObjectId(123),
@@ -15,7 +16,7 @@
     , model = {
       'users': require('../../model/user')(mockedDb, mockedSchema, MockObjectId)
     }
-    , identification = require('../../identification')(86400, model, joi, boom)
+    , identification = require('../../identification')(86400, model, joi, boom, messages)
     , code = require('code')
     , lab = require('lab').script()
     , describe = lab.describe

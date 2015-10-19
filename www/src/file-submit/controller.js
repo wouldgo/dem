@@ -4,18 +4,19 @@
 export class FileSubmitController {
 
   /*@ngInject*/
-  constructor($log, $mdToast, FileSubmitService) {
+  constructor($log, $mdToast, $state, config, FileSubmitService) {
 
     this.log = $log;
     this.mdToast = $mdToast;
     this.FileSubmitService = FileSubmitService;
+    this.state = $state;
 
     this.fileProcessingStarted = false;
     this.uploading = true;
     this.erroDuringUpload = this.mdToast.simple()
       .content('There was an error during the file upload. You should retry.')
-      .position('bottom right')
-      .hideDelay(5000);
+      .position(config.application.toast.position)
+      .hideDelay(config.application.toast.hideTimeout);
   }
 
   processFile(file) {
@@ -24,7 +25,7 @@ export class FileSubmitController {
     this.FileSubmitService.processUpload(file).then(() => {
 
       this.uploading = true;
-      this.log.info('Navigate to screen');
+      this.state.go('data-visualization');
     }, () => {
 
       this.uploading = false;

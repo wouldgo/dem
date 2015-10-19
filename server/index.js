@@ -3,9 +3,10 @@
   'use strict';
 
   var config = require('./config')
+    , messages = require('./messages')
     , mongoIpAddr = config.mongoIpAddr || process.env.MONGO_IP
     , model = require('./model')(mongoIpAddr, config.appName)
-    , http = require('./http')(config.httpConf, config.sessionExpiration, model);
+    , http = require('./http')(config.httpConf, config.sessionExpiration, model, messages);
 
   http.start(function onServerStarted() {
 

@@ -12,9 +12,9 @@
     "src": "dist/file-submit/index.js"
   },
   {
-    "stateName": "renderer",
-    "urlPrefix": "/renderer",
+    "stateName": "data-visualization",
+    "urlPrefix": "/data-visualization",
     "type": "load",
-    "src": "/renderer/index.js"
+    "src": "dist/data-visualization/index.js"
   }
 ]

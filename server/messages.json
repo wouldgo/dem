@@ -1,0 +1,6 @@
+{
+  "invalidData": "Given data are invalid",
+  "noData": "No data from model inquiry",
+  "accountInexistent": "You must first create an account",
+  "identifierInexistent": "You must provide an identifier stored"
+}

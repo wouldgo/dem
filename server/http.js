@@ -24,10 +24,10 @@
         }
       };
 
-  module.exports = function exportingFunction(connectionConfiguration, sessionExpiration, model) {
+  module.exports = function exportingFunction(connectionConfiguration, sessionExpiration, model, messages) {
 
-    var identification = require('./identification')(sessionExpiration, model, joi, boom)
-      , demRoutes = require('./dem')(joi, boom);
+    var identification = require('./identification')(sessionExpiration, model, joi, boom, messages)
+      , demRoutes = require('./dem')(joi, boom, identification.comunicator, messages);
 
     server.connection(connectionConfiguration);
     server.register([inert, goodConfiguration, hapiJwt, vision, lout], function onRegister(err) {

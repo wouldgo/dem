@@ -29,7 +29,7 @@ export const identificationFactory = /*@ngInject*/ function identificationFactor
             resolve(email);
           } else {
 
-            reject('Malformed response');
+            reject(config.http.malformedResponse);
           }
         }).catch((error) => {
 

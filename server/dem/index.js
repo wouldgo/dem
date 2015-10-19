@@ -2,14 +2,38 @@
 (function withNode(require, module) {
   'use strict';
 
-  var /*gdal = require('gdal')
-    , GeoJSON = require('geojson')
-    ,*/ handleGetRasterInformations = function handleGetRasterInformations(request, reply) {
+  //, GeoJSON = require('geojson');
+  var demUser = '_dem_user_'
+    , gdal = require('gdal')
+    , handlePostRaster = function onUploadRaster(boom, comunicator, messages, request, reply) {
 
-      reply('OK');
+      if (request &&
+        request.auth &&
+        request.auth.credentials &&
+        request.auth.credentials.id &&
+        request.payload &&
+        request.payload.file &&
+        request.payload.file.path) {
+        var userIdentifier = request.auth.credentials.id
+          , demFile;
+
+        try {
+
+          demFile = gdal.open(request.payload.file.path);
+
+          comunicator.sendTo(demUser, userIdentifier, demFile);//TODO continue here
+          reply('ok');
+        } catch (e) {
+
+          reply(boom.badData(e));
+        }
+      } else {
+
+        reply(boom.badData(messages.invalidData));
+      }
     };
 
-  module.exports = function exportingFunction(/*joi, boom*/) {
+  module.exports = function exportingFunction(joi, boom, comunicator, messages) {
 
     var uploadRaster = {
         'method': 'POST',
@@ -18,32 +42,25 @@
           'auth': 'jwt',
           'payload': {
             'maxBytes': 1000000000,
-            'output': 'stream',
+            'output': 'file',
             'parse': true
+          },
+          'validate': {
+            'payload': {
+              'file': joi.object().keys({
+                'filename': joi.string().min(1),
+                'path': joi.string().min(1),
+                'headers': joi.any().optional(),
+                'bytes': joi.number().greater(10)
+              })
+            }
           }
         },
-        'handler': function onUploadRaster(request, reply) {
-
-          reply('ok');
-        }
-      }
-      , getRasterInformations = {
-        'method': 'GET',
-        'path': '/raster-info',
-        'config': {
-          'auth': 'jwt'/*,
-          'validate': {
-            'query': {
-              'oauthio': joi.string().required()
-            }
-          }*/
-        },
-        'handler': handleGetRasterInformations
+        'handler': handlePostRaster.bind(this, boom, comunicator, messages)
       };
 
     return [
-      uploadRaster,
-      getRasterInformations
+      uploadRaster
     ];
   };
 }(require, module));

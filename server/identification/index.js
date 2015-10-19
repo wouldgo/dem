@@ -39,11 +39,11 @@
         }
       };
 
-  module.exports = function exportingFunction(sessionExpiration, model, joi, boom) {
+  module.exports = function exportingFunction(sessionExpiration, model, joi, boom, messages) {
 
     return {
       'comunicator': comunicator,
-      'routes': identificationRoutes(jwtSalt, sessionExpiration, model, joi, boom),
+      'routes': identificationRoutes(jwtSalt, sessionExpiration, model, joi, boom, messages),
       'strategy': {
         'key': jwtSalt,
         'validateFunc': validateAuth.bind(this, model)
