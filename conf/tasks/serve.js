@@ -78,6 +78,6 @@
 
   gulp.task('serve', ['watch'], function onServe(done) {
 
-    return runSequence('run-nodemon', ['node-debug', 'run-browser-sync'], done);
+    return runSequence(['run-nodemon', 'run-browser-sync'], done);
   });
 }(console, __dirname, require));

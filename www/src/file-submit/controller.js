@@ -4,7 +4,7 @@
 export class FileSubmitController {
 
   /*@ngInject*/
-  constructor($log, $mdToast, $state, config, FileSubmitService) {
+  constructor($rootScope, $scope, $log, $mdToast, $state, config, FileSubmitService) {
 
     this.log = $log;
     this.mdToast = $mdToast;
@@ -17,17 +17,34 @@ export class FileSubmitController {
       .content('There was an error during the file upload. You should retry.')
       .position(config.application.toast.position)
       .hideDelay(config.application.toast.hideTimeout);
+
+    let unregisterOnComunicatorToMe = $rootScope.$on('comunicator:to-me', (eventInfo, data) => {
+
+      if (data &&
+        data.what &&
+        data.what.what === 'max-points' &&
+        data.what.maxValues &&
+        Array.isArray(data.what.maxValues)) {
+
+        unregisterOnComunicatorToMe();
+        $state.go('data-visualization', {
+          'max-points': data.what.maxValues
+        });
+      }
+    });
+
+    $scope.$on('$destroy', () => {
+
+      unregisterOnComunicatorToMe();
+    });
   }
 
   processFile(file) {
 
     this.fileProcessingStarted = true;
-    this.FileSubmitService.processUpload(file).then(() => {
+    this.FileSubmitService.processUpload(file).then(() => {}, () => {
 
-      this.uploading = true;
-      this.state.go('data-visualization');
-    }, () => {
-
+      this.fileProcessingStarted = true;
       this.uploading = false;
       this.file = undefined;
       this.mdToast.show(this.erroDuringUpload);

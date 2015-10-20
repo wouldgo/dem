@@ -32,16 +32,14 @@
       , demRoutes = require('./dem')(masterWorker, joi, boom, maxFileSize, messages);
 
     masterWorker.on('worker:message', function onWorkerMessage(pid, message) {
+      var identifier = message.identifier;
 
-      //console.log(pid, message);
+      delete message.identifier;
+      identification.comunicator.sendTo('_dem_server', identifier, message);
     });
     masterWorker.on('worker:error', function onWorkerError(pid, error) {
 
-      //console.log(pid, error);
-    });
-    masterWorker.on('worker:disconnect', function onWorkerDisconnection(pid) {
-
-      //console.log(pid);
+      throw new Error(pid + ' throws: ' + error);
     });
 
     server.connection(connectionConfiguration);

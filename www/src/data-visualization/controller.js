@@ -4,11 +4,25 @@
 export class DataVisualizationController {
 
   /*@ngInject*/
-  constructor($log, $rootScope, $scope) {
+  constructor($rootScope, $scope, $stateParams) {
 
+    this.maxPoints = $stateParams['max-points'];
     let unregisterOnComunicatorToMe = $rootScope.$on('comunicator:to-me', (eventInfo, data) => {
 
-      $log.info(data);
+      if (this.maxPoints) {
+
+        $rootScope.$emit('dem:max-points', this.maxPoints);
+        delete this.maxPoints;
+      }
+
+      if (data &&
+        data.what &&
+        data.what.what === 'coordinate' &&
+        data.what.point &&
+        Array.isArray(data.what.point)) {
+
+        $rootScope.$emit('dem:new-point', data.what.point);
+      }
     });
 
     $scope.$on('$destroy', () => {

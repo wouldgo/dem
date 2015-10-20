@@ -1,8 +1,9 @@
-/*global require,module*/
-(function withNode(require, module) {
+/*global __dirname,require,module*/
+(function withNode(__dirname, require, module) {
   'use strict';
 
   var childProcess = require('child_process')
+    , fork = childProcess.fork
     , EventEmitter = require('events')
     , util = require('util')
     , Master = function Master() {
@@ -21,16 +22,16 @@
       throw new Error('Missing mandatory parameters');
     }
 
-    var newProcess = childProcess.fork(moduleToFork, [owner, fileToProcess])
+    var newProcess = fork(moduleToFork, [owner, fileToProcess], {
+        'execArgv': []
+      })
       , that = this;
 
     newProcess.on('message', function onMessage(message) {
-
       that.emit('worker:message', this.pid, message);
     });
 
     newProcess.on('error', function onError(error) {
-
       that.emit('worker:error', this.pid, error);
     });
 
@@ -47,4 +48,4 @@
   module.exports = {
     'Master': Master
   };
-}(require, module));
+}(__dirname, require, module));
