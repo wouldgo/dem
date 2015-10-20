@@ -2,6 +2,11 @@
   "sessionExpiration": 86400,
   "appName": "visual-dem",
   "mongoIpAddr": "127.0.0.1",
+  "amqp": {
+    "exchangeName": "dem:points",
+    "host": "amqp://localhost"
+  },
+  "maxFileSize": 1000000000,
   "httpConf": {
     "host": "0.0.0.0",
     "port": 3000,

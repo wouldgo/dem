@@ -24,10 +24,22 @@
         }
       };
 
-  module.exports = function exportingFunction(connectionConfiguration, sessionExpiration, model, messages) {
+  module.exports = function exportingFunction(amqpConfiguration, maxFileSize, connectionConfiguration, sessionExpiration, model, messages) {
 
     var identification = require('./identification')(sessionExpiration, model, joi, boom, messages)
-      , demRoutes = require('./dem')(joi, boom, identification.comunicator, messages);
+      , demRoutes = require('./dem')(amqpConfiguration, joi, boom, maxFileSize, messages)
+      , processing = require('./dem/processing')(identification.comunicator);
+
+    require('./amqp/amqp-sub')(amqpConfiguration, function onMessage(message) {//TODO spwan new process
+
+      if (message) {
+
+        processing(message.identifier, message.file);
+      } else {
+
+        throw new Error('Empty message arrived');
+      }
+    });
 
     server.connection(connectionConfiguration);
     server.register([inert, goodConfiguration, hapiJwt, vision, lout], function onRegister(err) {
@@ -37,7 +49,6 @@
         throw err;
       }
 
-      //identification.comunicator
       server.auth.strategy('jwt', 'jwt', true, identification.strategy);
       if (demRoutes &&
         Array.isArray(demRoutes)) {

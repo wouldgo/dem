@@ -7,22 +7,37 @@
     , runSequence = require('run-sequence')
     , browserSync = require('browser-sync')
     , nodemon = require('gulp-nodemon')
-    , proxyMiddleware = require('http-proxy-middleware')
+    , nodeInspector = require('gulp-node-inspector')
     , historyApiFallback = require('connect-history-api-fallback')
     , serverIndexFile = path.resolve(__dirname, '../..', 'server/index.js')
-    , apiProxy = proxyMiddleware('/api', {
-        'target': 'http://localhost:3000',
-        'pathRewrite': {
-          '/api': ''
-        }
-      })
     , paths = require('../paths')
     , pathToSource = path.resolve(__dirname, '../..', paths.source)
     , pathToDist = path.resolve(__dirname, '../..', paths.output + '**/*.js');
 
+  gulp.task('node-debug', function runNodeInspector() {
+
+    gulp.src([])
+      .pipe(nodeInspector({
+        'debugPort': 5858,
+        'webHost': '0.0.0.0',
+        'webPort': 8080,
+        'saveLiveEdit': false,
+        'preload': true,
+        'inject': true,
+        'hidden': [],
+        'stackTraceLimit': 50,
+        'sslKey': '',
+        'sslCert': ''
+      }));
+  });
+
   gulp.task('run-nodemon', function runNodemon(done) {
 
     nodemon({
+      'nodeArgs': ['--debug'],
+      'tasks': [
+        'node-debug'
+      ],
       'script': serverIndexFile,
       'ext': 'js',
       'ignore': [
@@ -58,7 +73,6 @@
       'server': {
         'baseDir': ['./www'],
         'middleware': [
-          apiProxy,
           historyApiFallback()
         ]
       }
@@ -67,6 +81,6 @@
 
   gulp.task('serve', ['watch'], function onServe(done) {
 
-    return runSequence('run-nodemon', ['run-browser-sync'], done);
+    return runSequence('run-nodemon', ['node-debug', 'run-browser-sync'], done);
   });
 }(console, __dirname, require));

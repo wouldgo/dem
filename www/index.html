@@ -20,6 +20,10 @@
         text-align: center;
       }
 
+      .fab-loading-phase {
+        display: none;
+      }
+
       .spinner {
         -webkit-animation: rotator 1.5s linear infinite;
                 animation: rotator 1.5s linear infinite;
@@ -149,10 +153,10 @@
     <md-progress-linear ng-show="loadingState" md-mode="query"></md-progress-linear>
 
     <!-- menu -->
-    <md-fab-speed-dial id="options-fab-menu" style="display:none"
+    <md-fab-speed-dial id="options-fab-menu"
       md-open="optionsFab.isOpen"
       ng-mouseenter="optionsFab.isOpen=true" ng-mouseleave="optionsFab.isOpen=false"
-      class="md-fling md-fab-top-left"
+      class="md-fling md-fab-top-left fab-loading-phase"
       md-direction="down">
       <md-fab-trigger>
         <md-button

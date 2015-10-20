@@ -2,46 +2,39 @@
 (function withNode(require, module) {
   'use strict';
 
-  //, GeoJSON = require('geojson');
-  var demUser = '_dem_user_'
-    , gdal = require('gdal')
-    , handlePostRaster = function onUploadRaster(boom, comunicator, messages, request, reply) {
+  module.exports = function exportingFunction(amqpConfiguration, joi, boom, maxFileSize, messages) {
 
-      if (request &&
-        request.auth &&
-        request.auth.credentials &&
-        request.auth.credentials.id &&
-        request.payload &&
-        request.payload.file &&
-        request.payload.file.path) {
-        var userIdentifier = request.auth.credentials.id
-          , demFile;
+    var AmqpPublish = require('../amqp/amqp-pub')(amqpConfiguration)
+      , pub = new AmqpPublish()
+      , handlePostRaster = function onUploadRaster(request, reply) {
 
-        try {
+        if (request &&
+          request.auth &&
+          request.auth.credentials &&
+          request.auth.credentials.id &&
+          request.payload &&
+          request.payload.file &&
+          request.payload.file.path) {
 
-          demFile = gdal.open(request.payload.file.path);
+          pub.send({
+            'identifier': request.auth.credentials.id,
+            'file': request.payload.file.path
+          });
+          reply({
+            'status': 'started'
+          });
+        } else {
 
-          comunicator.sendTo(demUser, userIdentifier, demFile);//TODO continue here
-          reply('ok');
-        } catch (e) {
-
-          reply(boom.badData(e));
+          reply(boom.badData(messages.invalidData));
         }
-      } else {
-
-        reply(boom.badData(messages.invalidData));
       }
-    };
-
-  module.exports = function exportingFunction(joi, boom, comunicator, messages) {
-
-    var uploadRaster = {
+      , uploadRaster = {
         'method': 'POST',
         'path': '/raster',
         'config': {
           'auth': 'jwt',
           'payload': {
-            'maxBytes': 1000000000,
+            'maxBytes': maxFileSize,
             'output': 'file',
             'parse': true
           },
@@ -56,7 +49,7 @@
             }
           }
         },
-        'handler': handlePostRaster.bind(this, boom, comunicator, messages)
+        'handler': handlePostRaster
       };
 
     return [

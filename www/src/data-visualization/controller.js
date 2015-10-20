@@ -4,9 +4,17 @@
 export class DataVisualizationController {
 
   /*@ngInject*/
-  constructor($log) {
+  constructor($log, $rootScope, $scope) {
 
-    this.log = $log;
+    let unregisterOnComunicatorToMe = $rootScope.$on('comunicator:to-me', (eventInfo, data) => {
+
+      $log.info(data);
+    });
+
+    $scope.$on('$destroy', () => {
+
+      unregisterOnComunicatorToMe();
+    });
   }
 }
 // jscs:enable disallowAnonymousFunctions

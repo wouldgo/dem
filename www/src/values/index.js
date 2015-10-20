@@ -11,7 +11,7 @@ export default angular.module('values', [])
       }
     },
     'http': {
-      'address': 'http://localhost:8100/api',
+      'address': 'http://localhost:3000',
       'malformedResponse': 'Malformed response'
     },
     'ws': {

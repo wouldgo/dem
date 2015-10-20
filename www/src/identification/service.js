@@ -151,11 +151,12 @@ export const userSettings = /*@ngInject*/ function userSettings($log, $rootScope
         $rootScope.jwtToken = payload.jwtToken;
         Comunicator.then((theComunicator) => {
 
-          if (!theComunicator.whoAmI() ||
-            $rootScope.userIdentifier !== theComunicator.whoAmI()) {
+          if (theComunicator.whoAmI()) {
 
-            theComunicator.userIsPresent($rootScope.userIdentifier, $rootScope.jwtToken);
+            theComunicator.exit();
           }
+
+          theComunicator.userIsPresent($rootScope.userIdentifier, $rootScope.jwtToken);
         });
       } else {
 

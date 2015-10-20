@@ -4,7 +4,7 @@
 
   var gdal = require('gdal')
     , GeoJSON = require('geojson')
-    , dataset = gdal.open('./trentino-altoadige/taa.asc')
+    , dataset = gdal.open('/home/dario/Copy/github/taa.asc')
     , geoTransform = dataset.geoTransform
     , toGeoJson = [];
 
