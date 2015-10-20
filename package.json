@@ -27,6 +27,7 @@
     "joi": "^6.9.0",
     "jsonwebtoken": "^5.4.0",
     "lout": "^7.2.0",
+    "minimist": "^1.2.0",
     "mongoose": "^4.1.10",
     "vision": "^3.0.0"
   },

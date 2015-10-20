@@ -1,12 +1,12 @@
-/*global require,module*/
-(function withNode(require, module) {
+/*global __dirname,require,module*/
+(function withNode(__dirname, require, module) {
   'use strict';
 
-  module.exports = function exportingFunction(amqpConfiguration, joi, boom, maxFileSize, messages) {
+  var path = require('path');
 
-    var AmqpPublish = require('../amqp/amqp-pub')(amqpConfiguration)
-      , pub = new AmqpPublish()
-      , handlePostRaster = function onUploadRaster(request, reply) {
+  module.exports = function exportingFunction(masterWorker, joi, boom, maxFileSize, messages) {
+
+    var handlePostRaster = function onUploadRaster(request, reply) {
 
         if (request &&
           request.auth &&
@@ -16,10 +16,7 @@
           request.payload.file &&
           request.payload.file.path) {
 
-          pub.send({
-            'identifier': request.auth.credentials.id,
-            'file': request.payload.file.path
-          });
+          masterWorker.startProcess(path.resolve(__dirname, 'processing.js'), request.auth.credentials.id, request.payload.file.path);
           reply({
             'status': 'started'
           });
@@ -56,4 +53,4 @@
       uploadRaster
     ];
   };
-}(require, module));
+}(__dirname, require, module));

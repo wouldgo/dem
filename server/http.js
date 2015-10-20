@@ -11,6 +11,8 @@
     , vision = require('vision')
     , lout = require('lout')
     , server = new Hapi.Server()
+    , Master = require('./worker/master').Master
+    , masterWorker = new Master()
     , goodConfiguration = {
         'register': good,
         'options': {
@@ -24,21 +26,22 @@
         }
       };
 
-  module.exports = function exportingFunction(amqpConfiguration, maxFileSize, connectionConfiguration, sessionExpiration, model, messages) {
+  module.exports = function exportingFunction(maxFileSize, connectionConfiguration, sessionExpiration, model, messages) {
 
     var identification = require('./identification')(sessionExpiration, model, joi, boom, messages)
-      , demRoutes = require('./dem')(amqpConfiguration, joi, boom, maxFileSize, messages)
-      , processing = require('./dem/processing')(identification.comunicator);
+      , demRoutes = require('./dem')(masterWorker, joi, boom, maxFileSize, messages);
 
-    require('./amqp/amqp-sub')(amqpConfiguration, function onMessage(message) {//TODO spwan new process
+    masterWorker.on('worker:message', function onWorkerMessage(pid, message) {
 
-      if (message) {
+      //console.log(pid, message);
+    });
+    masterWorker.on('worker:error', function onWorkerError(pid, error) {
 
-        processing(message.identifier, message.file);
-      } else {
+      //console.log(pid, error);
+    });
+    masterWorker.on('worker:disconnect', function onWorkerDisconnection(pid) {
 
-        throw new Error('Empty message arrived');
-      }
+      //console.log(pid);
     });
 
     server.connection(connectionConfiguration);

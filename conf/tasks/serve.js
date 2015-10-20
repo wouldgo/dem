@@ -35,9 +35,6 @@
 
     nodemon({
       'nodeArgs': ['--debug'],
-      'tasks': [
-        'node-debug'
-      ],
       'script': serverIndexFile,
       'ext': 'js',
       'ignore': [
