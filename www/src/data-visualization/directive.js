@@ -1,4 +1,5 @@
 import THREE from 'three';
+import d3 from 'd3';
 import 'threejs-orbit-controls';
 import angular from 'angular';
 
@@ -131,6 +132,100 @@ export const threejsDirective = /*@ngInject*/ function threejsDirective($log, $w
     'scope': {},
     'bindToController': {},
     'controllerAs': 'threeCtrl',
+    'controller': controller,
+    'link': linkingFunction
+  };
+};
+
+/*eslint-disable one-var*/
+export const sectionDirective = /*@ngInject*/ function sectionDirective($log) {
+  /*eslint-enable one-var*/
+  'use strict';
+
+  const linkingFunction = function linkingFunction($scope, element) {
+    element.append('<svg id="dem-section" width="400" height="200"></svg>');
+
+    const svg = d3.select('#dem-section')
+    , lineGeneration = d3.svg.line()
+      .x(function calculateX(d) {
+
+        $log.info(d.x);
+        return d.x;
+      })
+      .y(function calculateY(d) {
+
+        $log.info(d.y);
+        return d.y;
+      })
+      .interpolate('linear')
+    , graphValuesWatchingFunction = function graphValuesWatchingFunction() {
+
+      return $scope.sectionCtrl.graphValues &&
+        $scope.sectionCtrl.graphValues.length > 0;
+    }
+    , onGraphValueChange = function onGraphValueChange(newValue, oldValue) {
+
+      if (newValue) {
+
+        if (oldValue) { //Came back
+
+          $log.debug('Data already');
+        } else { //First time
+
+          $scope.sectionCtrl.graphValues.forEach((anElement) => {
+
+            svg.append('svg:path')
+              .attr('d', lineGeneration(anElement))
+              .attr('stroke', 'green')
+              .attr('stroke-width', 2)
+              .attr('fill', 'none');
+          });
+        }
+      }
+    }
+    , unregisterGraphValues = $scope.$watch(graphValuesWatchingFunction, onGraphValueChange);
+
+    $scope.$on('$destroy', () => {
+
+      unregisterGraphValues();
+    });
+  }
+  , controller = /*@ngInject*/ function controller($rootScope, $scope) {
+
+    this.graphValues = [];
+    const unregisterPointArrived = $rootScope.$on('dem:new-points', (eventInfo, payload) => {
+
+      if (payload &&
+        payload.currentRow &&
+        payload.points &&
+        !isNaN(payload.currentRow) &&
+        Array.isArray(payload.points)) {
+
+        payload.points.forEach((anElement, index) => {
+
+          if (anElement &&
+            (!this.graphValues[index] || anElement[2] > this.graphValues[index])) {
+
+            this.graphValues.splice(index, 0, {
+              'x': index,
+              'y': anElement[2]
+            });
+          }
+        });
+      }
+    });
+
+    $scope.$on('$destroy', () => {
+
+      unregisterPointArrived();
+    });
+  };
+
+  return {
+    'restrict': 'A',
+    'scope': {},
+    'bindToController': {},
+    'controllerAs': 'sectionCtrl',
     'controller': controller,
     'link': linkingFunction
   };

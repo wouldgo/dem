@@ -19,7 +19,7 @@
   ],
   "dependencies": {
     "jquery": "~2.1.4",
-    "three.js": "~0.71.0",
+    "three.js": "~0.72.0",
     "angular": "~1.4.7",
     "oclazyload": "~1.0.6",
     "angular-ui-router": "~0.2.15",

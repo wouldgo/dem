@@ -3,7 +3,7 @@ import 'three';
 import 'angular-filter';
 import {DataVisualizationController} from './controller.js';
 import dataVisualizationTemplate from 'dist/data-visualization/data-visualization.tpl.js';
-import {threejsDirective} from './directive.js';
+import {threejsDirective, sectionDirective} from './directive.js';
 
 const routeConf = /*@ngInject*/ function routeConf($stateProvider) {
   'use strict';
@@ -36,4 +36,5 @@ export default angular.module('data-visualization', [
     dataVisualizationTemplate.name
   ])
   .config(routeConf)
-  .directive('demThree', threejsDirective);
+  .directive('demThree', threejsDirective)
+  .directive('demSection', sectionDirective);

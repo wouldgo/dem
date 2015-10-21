@@ -17,6 +17,7 @@
       'jquery': 'bower:jquery/dist/jquery.min.js',
       'three': 'bower:three.js/three.min.js',
       'threejs-orbit-controls': 'https://raw.githubusercontent.com/mrdoob/three.js/r73/examples/js/controls/OrbitControls.js',
+      'd3': 'https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js',
       'angular': 'bower:angular/angular.min.js',
       'ocLazyLoad': 'bower:oclazyload/dist/ocLazyLoad.min.js',
       'ui-router': 'bower:angular-ui-router/release/angular-ui-router.min.js',
@@ -40,6 +41,9 @@
         'deps': [
           'three'
         ]
+      },
+      'd3': {
+        'exports': 'd3'
       },
       'angular': {
         'deps': [
