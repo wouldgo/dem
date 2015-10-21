@@ -42,6 +42,7 @@
               accept="*/*"
               ngf-select
               ngf-patter="*/*"
+              ngf-max-size="1500KB"
               ng-model="fileSubmitCtrl.file"
               ng-disabled="fileSubmitCtrl.file"
               ng-class="{'md-primary': '!fileSubmitCtrl.file'}"
@@ -69,6 +70,7 @@
             <div ngf-drop="fileSubmitCtrl.processFile(fileSubmitCtrl.file)"
               ng-model="fileSubmitCtrl.file"
               ngf-drag-over-class="file-drop-zone-over"
+              ngf-max-size="1500KB"
               class="file-drop-zone">
               <md-icon class="file-drop-zone-icon"
                 aria-label="dem-file-drop-zone"

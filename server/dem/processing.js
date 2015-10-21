@@ -8,6 +8,15 @@
     , demFile
     , geoTransform;
 
+  if (!process.send) {
+
+    /*eslint-disable*/
+    /*jshint -W117*/
+    process.send = console.log;
+    /*jshint +W117*/
+    /*eslint-enable*/
+  }
+
   if (!params) {
 
     process.exit(1);
@@ -40,19 +49,23 @@
 
       global.setTimeout(function onTimeout() {
 
-        for (xIndexValue = 0; xIndexValue < xMaxValue; xIndexValue += 1) {
+        for (yIndexValue = 0; yIndexValue < yMaxValue; yIndexValue += 1) {
+          var currentRow = [];
 
-          for (yIndexValue = 0; yIndexValue < yMaxValue; yIndexValue += 1) {
+          for (xIndexValue = 0; xIndexValue < xMaxValue; xIndexValue += 1) {
+
             aPixelHeight = aRasterBand.pixels.get(xIndexValue, yIndexValue);
-
             xPosition = geoTransform[0] + xIndexValue * geoTransform[1] + yIndexValue * geoTransform[2];
             yPosition = geoTransform[3] + xIndexValue * geoTransform[4] + yIndexValue * geoTransform[5];
-            process.send({
-              'what': 'coordinate',
-              'identifier': params._[0],
-              'point': [xPosition, yPosition, aPixelHeight]
-            });
+            currentRow.push([xPosition, yPosition, aPixelHeight]);
           }
+          process.send({
+            'what': 'coordinates',
+            'identifier': params._[0],
+            'currentRow': yIndexValue,
+            'points': currentRow
+          });
+          currentRow = [];
         }
         process.exit();
       }, 1000);
