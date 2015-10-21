@@ -17,11 +17,16 @@ export class DataVisualizationController {
 
       if (data &&
         data.what &&
-        data.what.what === 'coordinate' &&
-        data.what.point &&
-        Array.isArray(data.what.point)) {
+        data.what.what === 'coordinates' &&
+        data.what.currentRow &&
+        !isNaN(data.what.currentRow) &&
+        data.what.points &&
+        Array.isArray(data.what.points)) {
 
-        $rootScope.$emit('dem:new-point', data.what.point);
+        $rootScope.$emit('dem:new-points', {
+          'currentRow': data.what.currentRow,
+          'points': data.what.points
+        });
       }
     });
 

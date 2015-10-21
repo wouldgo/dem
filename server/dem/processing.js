@@ -60,7 +60,7 @@
             currentRow.push([xPosition, yPosition, aPixelHeight]);
           }
           process.send({
-            'what': 'coordinate',
+            'what': 'coordinates',
             'identifier': params._[0],
             'currentRow': yIndexValue,
             'points': currentRow
