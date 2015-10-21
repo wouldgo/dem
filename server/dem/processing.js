@@ -8,6 +8,15 @@
     , demFile
     , geoTransform;
 
+  if (!process.send) {
+
+    /*eslint-disable*/
+    /*jshint -W117*/
+    process.send = console.log;
+    /*jshint +W117*/
+    /*eslint-enable*/
+  }
+
   if (!params) {
 
     process.exit(1);
@@ -40,9 +49,9 @@
 
       global.setTimeout(function onTimeout() {
 
-        for (xIndexValue = 0; xIndexValue < xMaxValue; xIndexValue += 1) {
+        for (yIndexValue = 0; yIndexValue < yMaxValue; yIndexValue += 1) {
 
-          for (yIndexValue = 0; yIndexValue < yMaxValue; yIndexValue += 1) {
+          for (xIndexValue = 0; xIndexValue < xMaxValue; xIndexValue += 1) {
             aPixelHeight = aRasterBand.pixels.get(xIndexValue, yIndexValue);
 
             xPosition = geoTransform[0] + xIndexValue * geoTransform[1] + yIndexValue * geoTransform[2];
