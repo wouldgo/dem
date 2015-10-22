@@ -138,57 +138,68 @@ export const threejsDirective = /*@ngInject*/ function threejsDirective($log, $w
 };
 
 /*eslint-disable one-var*/
-export const sectionDirective = /*@ngInject*/ function sectionDirective($log) {
+export const sectionDirective = /*@ngInject*/ function sectionDirective() {
   /*eslint-enable one-var*/
   'use strict';
 
   const linkingFunction = function linkingFunction($scope, element) {
-    element.append('<svg id="dem-section" width="400" height="200"></svg>');
+    let svg;
 
-    const svg = d3.select('#dem-section')
-    , lineGeneration = d3.svg.line()
-      .x(function calculateX(d) {
+    $scope.onGraphValueChange = function onGraphValueChange(array, newGraph = true) {
 
-        $log.info(d.x);
-        return d.x;
-      })
-      .y(function calculateY(d) {
+      if (array) {
 
-        $log.info(d.y);
-        return d.y;
-      })
-      .interpolate('linear')
-    , graphValuesWatchingFunction = function graphValuesWatchingFunction() {
+        if (!svg) {
+          let graphWidth = array.length
+          , graphHeight = 200;
 
-      return $scope.sectionCtrl.graphValues &&
-        $scope.sectionCtrl.graphValues.length > 0;
-    }
-    , onGraphValueChange = function onGraphValueChange(newValue, oldValue) {
+          svg = d3.select(element[0])
+            .append('svg')
+            .attr('width', graphWidth)
+            .attr('height', graphHeight)
+            .append('g')
+            .attr('transform', 'translate(0, -50)');
+        }
 
-      if (newValue) {
+        let currentMaxValue = Math.max.apply(undefined, array.map(anArrayElement => {
 
-        if (oldValue) { //Came back
+          if (anArrayElement &&
+            anArrayElement.y) {
 
-          $log.debug('Data already');
-        } else { //First time
+            return anArrayElement.y;
+          }
+        }))
+        , lineGeneration = (function lineGeneration() {
 
-          $scope.sectionCtrl.graphValues.forEach((anElement) => {
+          return d3.svg.line()
+            .x(function calculateX(d) {
 
-            svg.append('svg:path')
-              .attr('d', lineGeneration(anElement))
-              .attr('stroke', 'green')
-              .attr('stroke-width', 2)
-              .attr('fill', 'none');
-          });
+              return d.x;
+            })
+            .y(function calculateY(d) {
+
+              return element.height() * d.y / currentMaxValue;
+            })
+            .interpolate('linear');
+        }());
+
+        if (newGraph) { //First time
+
+          svg.append('svg:path')
+            .attr('id', 'dem-section')
+            .attr('d', lineGeneration(array))
+            .attr('stroke', 'green')
+            .attr('stroke-width', 2)
+            .attr('fill', 'none');
+        } else { //Came back
+
+          d3.select('#dem-section')
+            .attr('d', lineGeneration(array))
+            .transition()
+            .duration(500);
         }
       }
-    }
-    , unregisterGraphValues = $scope.$watch(graphValuesWatchingFunction, onGraphValueChange);
-
-    $scope.$on('$destroy', () => {
-
-      unregisterGraphValues();
-    });
+    };
   }
   , controller = /*@ngInject*/ function controller($rootScope, $scope) {
 
@@ -200,6 +211,12 @@ export const sectionDirective = /*@ngInject*/ function sectionDirective($log) {
         payload.points &&
         !isNaN(payload.currentRow) &&
         Array.isArray(payload.points)) {
+        let firstTime = true;
+
+        if (this.graphValues.length > 0) {
+
+          firstTime = false;
+        }
 
         payload.points.forEach((anElement, index) => {
 
@@ -212,6 +229,8 @@ export const sectionDirective = /*@ngInject*/ function sectionDirective($log) {
             });
           }
         });
+
+        $scope.onGraphValueChange(this.graphValues, firstTime);
       }
     });
 
