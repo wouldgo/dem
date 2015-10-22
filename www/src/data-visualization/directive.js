@@ -143,61 +143,114 @@ export const sectionDirective = /*@ngInject*/ function sectionDirective() {
   'use strict';
 
   const linkingFunction = function linkingFunction($scope, element) {
-    let svg;
+    let svg
+      , x
+      , y
+      , xAxis
+      , yAxis
+      , valueline
+      , margin = {
+        'top': 30,
+        'right': 20,
+        'bottom': 30,
+        'left': 50
+      };
 
-    $scope.onGraphValueChange = function onGraphValueChange(array, newGraph = true) {
+    $scope.onGraphValueChange = function onGraphValueChange(array) {
 
-      if (array) {
+      if (svg) {
 
-        if (!svg) {
-          let graphWidth = array.length
-          , graphHeight = 200;
+        x.domain([
+          d3.min(array, d => {
+            return d.x;
+          }),
+          d3.max(array, d => {
+            return d.x;
+          })
+        ]);
+        y.domain([
+          d3.max(array, d => {
+            return d.y;
+          }),
+          d3.min(array, d => {
+            return d.y;
+          })
+        ]);
 
-          svg = d3.select(element[0])
-            .append('svg')
-            .attr('width', graphWidth)
-            .attr('height', graphHeight)
-            .append('g')
-            .attr('transform', 'translate(0, -50)');
-        }
+        // Select the section we want to apply our changes to
+        let transition = d3.select(element[0]).transition();
 
-        let currentMaxValue = Math.max.apply(undefined, array.map(anArrayElement => {
+        // Make the changes
+        transition.select('.line')
+            .duration(150)
+            .attr('d', valueline(array));
+        transition.select('.x.axis')
+            .duration(150)
+            .call(xAxis);
+        transition.select('.y.axis')
+            .duration(150)
+            .call(yAxis);
+      } else {
+        let width = array.length - margin.left - margin.right
+          , height = 300 - margin.top - margin.bottom;
 
-          if (anArrayElement &&
-            anArrayElement.y) {
+        x = d3.scale.linear().range([0, width]);
+        y = d3.scale.linear().range([0, height]);
+        xAxis = d3.svg.axis().scale(x)
+          .orient('bottom')
+          .ticks(0);
+        yAxis = d3.svg.axis().scale(y)
+          .orient('left')
+          .tickFormat(tickValue => {
 
-            return anArrayElement.y;
-          }
-        }))
-        , lineGeneration = (function lineGeneration() {
+            return `${tickValue} m`;
+          })
+          .ticks(5);
+        valueline = d3.svg.line()
+          .x(d => {
 
-          return d3.svg.line()
-            .x(function calculateX(d) {
+            return x(d.x);
+          })
+          .y(d => {
 
-              return d.x;
-            })
-            .y(function calculateY(d) {
+            return y(d.y);
+          });
+        svg = d3.select(element[0])
+          .append('svg')
+            .attr('width', width + margin.left + margin.right)
+            .attr('height', height + margin.top + margin.bottom)
+          .append('g')
+            .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
-              return element.height() * d.y / currentMaxValue;
-            })
-            .interpolate('linear');
-        }());
+        x.domain([
+          d3.min(array, d => {
+            return d.x;
+          }),
+          d3.max(array, d => {
+            return d.x;
+          })
+        ]);
+        y.domain([
+          d3.max(array, d => {
+            return d.y;
+          }),
+          d3.min(array, d => {
+            return d.y;
+          })
+        ]);
 
-        if (newGraph) { //First time
+        svg.append('path')
+          .attr('class', 'line')
+          .attr('d', valueline(array));
 
-          svg.append('svg:path')
-            .attr('id', 'dem-section')
-            .attr('d', lineGeneration(array))
-            .attr('stroke', 'green')
-            .attr('stroke-width', 2)
-            .attr('fill', 'none');
-        } else { //Came back
+        svg.append('g')
+          .attr('class', 'x axis')
+          .attr('transform', `translate(0, ${height})`)
+          .call(xAxis);
 
-          d3.select('#dem-section')
-            .attr('d', lineGeneration(array))
-            .transition()
-            .duration(500);
-        }
+        svg.append('g')
+          .attr('class', 'y axis')
+          .call(yAxis);
       }
     };
   }
@@ -211,26 +264,27 @@ export const sectionDirective = /*@ngInject*/ function sectionDirective() {
         payload.points &&
         !isNaN(payload.currentRow) &&
         Array.isArray(payload.points)) {
-        let firstTime = true;
-
-        if (this.graphValues.length > 0) {
-
-          firstTime = false;
-        }
 
         payload.points.forEach((anElement, index) => {
 
           if (anElement &&
-            (!this.graphValues[index] || anElement[2] > this.graphValues[index])) {
+            (!this.graphValues[index] || anElement[2] > this.graphValues[index].y)) {
 
-            this.graphValues.splice(index, 0, {
+            this.graphValues[index] = {
               'x': index,
               'y': anElement[2]
-            });
+            };
           }
         });
 
-        $scope.onGraphValueChange(this.graphValues, firstTime);
+        this.graphValues.filter((anElement) => {
+
+          if (anElement) {
+
+            return anElement;
+          }
+        });
+        $scope.onGraphValueChange(this.graphValues);
       }
     });
 

@@ -128,8 +128,8 @@
     </style>
     <link rel="stylesheet" href="lib/normalize-css/normalize.css" charset="utf-8">
   </head>
-  <body layout="column" layout-align="end center">
-    <h1 class="no-javascript md-display-2">
+  <body layout="column">
+    <h1 class="no-javascript title-position">
       Visual DEM/DTM
     </h1>
     <noscript>
@@ -195,7 +195,7 @@
     </md-fab-speed-dial>
 
     <!-- application content here -->
-    <md-content ng-cloak flex class="md-padding" ui-view></md-content>
+    <div ng-cloak flex layout="row" layout-align="center start" layout-padding ui-view></div>
     <script type="text/javascript" src="lib/system.js/dist/system.js" charset="utf-8"></script>
     <script type="text/javascript" src="boot.js" charset="utf-8"></script>
   	<script type="text/javascript" charset="utf-8">
