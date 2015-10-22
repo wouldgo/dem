@@ -10,6 +10,11 @@ $dropAreaOverDarkeness: 10%;
   font-family: 'Noto Sans', sans-serif;
 }
 
+.title-position {
+  text-align: center;
+  padding: 1% 0;
+}
+
 .file-selection-group {
   padding: 3px 15px 3px 15px;
   text-transform: none;
@@ -35,4 +40,29 @@ $dropAreaOverDarkeness: 10%;
 
 .file-drop-zone-over {
   background-color: darken($dropAreaColor, $dropAreaOverDarkeness);
+}
+
+div[dem-section] {
+  text-align: center;
+}
+
+[dem-section] {
+
+  path {
+    stroke: steelblue;
+    stroke-width: 2;
+    fill: none;
+  }
+
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+  }
+
+  g.y.axis > g > text {
+    font-size: x-small;
+  }
 }
