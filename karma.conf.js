@@ -24,7 +24,7 @@
         'stripPrefix': 'src/',
         'prependPrefix': 'dist/'
       },*/
-      //'singleRun': true,
+      'singleRun': true,
       'colors': true,
       // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
       'browsers': [
@@ -67,6 +67,7 @@
           }
         },
         'serveFiles': [
+          'spec/fixtures/**/*.js',
           'dist/**/*.tpl.js',
           'src/**/*.js',
           'lib/**/*.js',
