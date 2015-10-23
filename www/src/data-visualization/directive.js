@@ -95,7 +95,6 @@ export const threejsDirective = /*@ngInject*/ function threejsDirective($log, $w
       if (this.counter <= this.geometryLength) {
 
         if (payload &&
-          payload.currentRow &&
           payload.points &&
           !isNaN(payload.currentRow) &&
           Array.isArray(payload.points)) {
@@ -260,7 +259,6 @@ export const sectionDirective = /*@ngInject*/ function sectionDirective() {
     const unregisterPointArrived = $rootScope.$on('dem:new-points', (eventInfo, payload) => {
 
       if (payload &&
-        payload.currentRow &&
         payload.points &&
         !isNaN(payload.currentRow) &&
         Array.isArray(payload.points)) {
