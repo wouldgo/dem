@@ -14,21 +14,28 @@
         'karma-chrome-launcher',
         'karma-firefox-launcher',
         'karma-jasmine',
-        'karma-verbose-reporter'
+        'karma-verbose-reporter'/*,
+        'karma-ng-html2js-preprocessor'*/
       ],
-      'singleRun': true,
+      /*'preprocessors': {
+        'src/.tpl.html': ['ng-html2js']
+      },
+      'ngHtml2JsPreprocessor': {
+        'stripPrefix': 'src/',
+        'prependPrefix': 'dist/'
+      },*/
+      //'singleRun': true,
       'colors': true,
       // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
       'browsers': [
         'Chrome',
         'Firefox'
       ],
-      // possible values: 'dots', 'progress'
       // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-      'reporters': ['progress',
+      'reporters': [
+        'progress',
         'verbose'
       ],
-
       // list of files / patterns to load in the browser
       'files': [
         'boot.js',
@@ -38,7 +45,6 @@
       'exclude': [
         'spec/e2e/**.*'
       ],
-
       'systemjs': {
         'configFile': 'boot.js',
         'config': {
@@ -48,9 +54,20 @@
             'systemjs': '../node_modules/systemjs/dist/system.js',
             'system-polyfills': '../node_modules/systemjs/dist/system-polyfills.js',
             'babel': '../node_modules/babel-core/browser.js'
+          },
+          'map': {
+            'angular-mocks': '../lib/angular-mocks/angular-mocks.js'
+          },
+          'meta': {
+            'angular-mocks': {
+              'deps': [
+                'angular'
+              ]
+            }
           }
         },
         'serveFiles': [
+          'dist/**/*.tpl.js',
           'src/**/*.js',
           'lib/**/*.js',
           'lib/**/*.css',
