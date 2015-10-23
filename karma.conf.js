@@ -14,16 +14,8 @@
         'karma-chrome-launcher',
         'karma-firefox-launcher',
         'karma-jasmine',
-        'karma-verbose-reporter'/*,
-        'karma-ng-html2js-preprocessor'*/
+        'karma-verbose-reporter'
       ],
-      /*'preprocessors': {
-        'src/.tpl.html': ['ng-html2js']
-      },
-      'ngHtml2JsPreprocessor': {
-        'stripPrefix': 'src/',
-        'prependPrefix': 'dist/'
-      },*/
       'singleRun': true,
       'colors': true,
       // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher

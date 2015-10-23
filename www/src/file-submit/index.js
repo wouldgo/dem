@@ -1,6 +1,7 @@
 import angular from 'angular';
 import 'ng-file-upload';
 import 'angular-filter';
+import values from '../values/index.js';
 import {FileSubmitController} from './controller.js';
 import fileSubmitTemplate from 'dist/file-submit/file-submit.tpl.js';
 import {FileSubmitFactory} from './service.js';
@@ -26,6 +27,7 @@ const routeConf = /*@ngInject*/ function routeConf($stateProvider) {
 export default angular.module('file-submit', [
     'ngFileUpload',
     'angular.filter',
+    values.name,
     fileSubmitTemplate.name
   ])
   .config(routeConf)

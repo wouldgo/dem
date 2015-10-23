@@ -1,6 +1,5 @@
 /*global jasmine,describe,it,expect,spyOn,beforeEach,afterEach,module,inject*/
 import angular from 'angular';
-import 'ui-router';
 import 'angular-mocks';
 import 'spec/fixtures/mock-ui-router.js';
 import identification from '../src/identification/index.js';
