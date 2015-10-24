@@ -5,16 +5,14 @@
   "main": "index.js",
   "scripts": {
     "debug": "node-debug server/index.js",
-    "test": "lab --debug --verbose server/spec/**/*.js",
     "start": "node server/index.js",
+    "test": "lab --debug --verbose server/spec/**/*.js",
     "lint": "eslint -c .eslintrc server www && jshint -c .jshintrc --reporter=unix server www && jscs -c .jscsrc server www",
-    "precommit": "npm run-script lint && npm test && gulp test",
-    "preversion": "./tasks/webpack-build --watch=false --minify=true"
+    "precommit": "npm run-script lint && npm test && gulp test"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "amqplib": "^0.4.0",
     "boom": "^2.9.0",
     "comunicator": "^2.2.3",
     "gdal": "^0.7.1",
