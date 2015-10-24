@@ -1,21 +1,17 @@
 {
   "name": "dem",
-  "main": "index.js",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "authors": [
-    "wouldgo <wouldgo84@gmail.com>"
+    "Dario Andrei <wouldgo84@gmail.com>"
   ],
-  "description": "dem test",
-  "moduleType": [
-    "globals"
-  ],
+  "description": "An experiment in visualizing altitute from standard Digital Terrain Model formats",
   "license": "MIT",
   "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
-    "test",
-    "tests"
+    "www/spec",
+    "server"
   ],
   "dependencies": {
     "jquery": "~2.1.4",

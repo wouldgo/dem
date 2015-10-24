@@ -1,8 +1,8 @@
 {
   "name": "dem",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "An experiment in visualizing altitute from standard Digital Terrain Model formats",
+  "homepage": "https://github.com/wouldgo/dem",
   "scripts": {
     "debug": "node-debug server/index.js",
     "start": "node server/index.js",
@@ -10,7 +10,7 @@
     "lint": "eslint -c .eslintrc server www && jshint -c .jshintrc --reporter=unix server www && jscs -c .jscsrc server www",
     "precommit": "npm run-script lint && npm test && gulp test"
   },
-  "author": "",
+  "author": "Dario Andrei <wouldgo84@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "boom": "^2.9.0",
